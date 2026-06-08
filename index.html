@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NaijaFlash — Nigeria's Pulse</title>
+<meta name="description" content="Nigeria's fastest-growing news and information platform. Entertainment, finance, tech, health, education, and football — in real Nigerian voice.">
+<meta name="keywords" content="Nigeria news, Naija, entertainment, football, dollar rate, JAMB, crypto Nigeria, Nollywood">
+<meta property="og:title" content="NaijaFlash — Nigeria's Pulse">
+<meta property="og:description" content="Nigeria's fastest-growing news and information platform.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Naija_flash">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root{--green:#00A651;--green-dark:#007A3D;--green-light:#E6F7EE;--red:#EF233C;--black:#0A0A0A;--dark:#111827;--mid:#374151;--muted:#6B7280;--border:#E5E7EB;--bg:#F9FAFB;--white:#FFFFFF;--card-shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);--card-hover:0 8px 24px rgba(0,0,0,0.12);--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--bg);color:var(--dark);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4,h5,h6{font-family:var(--fd);line-height:1.25;}
+a{text-decoration:none;color:inherit;}
+img{display:block;width:100%;object-fit:cover;}
+button{cursor:pointer;border:none;background:none;font-family:inherit;}
+.page{display:none;}.page.active{display:block;}
+
+/* TICKER */
+.ticker-bar{background:var(--red);color:white;padding:7px 0;overflow:hidden;display:flex;align-items:center;}
+.ticker-label{background:var(--black);color:white;font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 16px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;align-self:stretch;display:flex;align-items:center;}
+.ticker-track{display:flex;animation:ticker 32s linear infinite;white-space:nowrap;font-size:12.5px;font-weight:500;padding-left:30px;}
+.ticker-track span{margin-right:60px;flex-shrink:0;}
+.ticker-track span::before{content:'● ';opacity:0.6;margin-right:4px;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* NAVBAR */
+.navbar{background:var(--white);border-bottom:3px solid var(--green);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.nav-top{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto;}
+.logo{font-family:var(--fd);font-size:24px;font-weight:800;color:var(--black);letter-spacing:-0.5px;cursor:pointer;}
+.logo span{color:var(--green);}
+.logo sub{font-size:9px;font-weight:600;letter-spacing:2px;color:var(--muted);vertical-align:middle;margin-left:4px;text-transform:uppercase;}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+.search-btn{display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;transition:border-color 0.2s;}
+.search-btn:hover{border-color:var(--green);color:var(--green);}
+.nav-cta{background:var(--green);color:white;font-family:var(--fd);font-size:12px;font-weight:700;padding:8px 16px;border-radius:8px;letter-spacing:0.5px;transition:background 0.2s;display:inline-block;cursor:pointer;}
+.nav-cta:hover{background:var(--green-dark);}
+.menu-btn{display:none;flex-direction:column;gap:5px;padding:6px;cursor:pointer;}
+.menu-btn span{display:block;width:22px;height:2px;background:var(--dark);border-radius:2px;}
+.nav-cats{border-top:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.nav-cats::-webkit-scrollbar{display:none;}
+.nav-cats-inner{display:flex;padding:0 20px;max-width:1200px;margin:0 auto;}
+.cat-tab{font-family:var(--fd);font-size:12px;font-weight:600;padding:10px 16px;white-space:nowrap;color:var(--mid);border-bottom:2.5px solid transparent;cursor:pointer;transition:all 0.2s;letter-spacing:0.3px;text-transform:uppercase;}
+.cat-tab:hover{color:var(--green);}
+.cat-tab.active{color:var(--green);border-bottom-color:var(--green);}
+.cat-tab.ftab{color:var(--red);}
+.cat-tab.ftab.active{border-bottom-color:var(--red);color:var(--red);}
+.mobile-menu{display:none;flex-direction:column;background:white;border-top:1px solid var(--border);padding:8px 0 16px;}
+.mobile-menu a{font-family:var(--fd);font-size:14px;font-weight:600;padding:12px 20px;color:var(--mid);border-bottom:1px solid var(--border);display:block;transition:color 0.15s;cursor:pointer;}
+.mobile-menu a:hover{color:var(--green);}
+.mobile-menu.open{display:flex;}
+
+/* AD SLOT 1 DIRECT */
+.ad-direct{background:var(--black);border-bottom:3px solid var(--green);position:relative;}
+.ad-direct-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;gap:16px;max-width:1200px;margin:0 auto;}
+.ad-direct-text h4{font-family:var(--fd);font-size:15px;font-weight:800;color:white;margin-bottom:3px;}
+.ad-direct-text p{font-size:12.5px;color:rgba(255,255,255,0.65);}
+.ad-direct-btn{background:var(--green);color:white;font-family:var(--fd);font-size:12px;font-weight:700;padding:10px 22px;border-radius:8px;white-space:nowrap;flex-shrink:0;display:inline-block;}
+.ad-lbl{position:absolute;top:7px;right:10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.1);padding:2px 7px;border-radius:4px;pointer-events:none;}
+.ad-lbl-dk{color:rgba(0,0,0,0.35)!important;background:rgba(0,0,0,0.08)!important;}
+
+/* LAYOUT */
+.main-wrap{max-width:1200px;margin:0 auto;padding:24px 16px;}
+.sb{margin-bottom:40px;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:12px;border-bottom:2.5px solid var(--black);}
+.section-header h2{font-size:18px;font-weight:800;letter-spacing:-0.3px;display:flex;align-items:center;gap:8px;}
+.dot{width:10px;height:10px;background:var(--green);border-radius:2px;display:inline-block;flex-shrink:0;}
+.dot.red{background:var(--red);}
+.see-all{font-family:var(--fd);font-size:12px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:4px;text-transform:uppercase;letter-spacing:0.5px;cursor:pointer;}
+.see-all:hover{opacity:0.75;}
+.see-all.red{color:var(--red);}
+
+/* HERO */
+.hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:16px;margin-bottom:28px;}
+.hero-main{grid-column:1/3;grid-row:1/3;position:relative;border-radius:14px;overflow:hidden;background:var(--dark);min-height:380px;display:block;cursor:pointer;}
+.hero-main img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.72;transition:opacity 0.3s,transform 0.4s;}
+.hero-main:hover img{opacity:0.6;transform:scale(1.02);}
+.hero-main-content{position:absolute;bottom:0;left:0;right:0;padding:28px;background:linear-gradient(to top,rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.5) 60%,transparent 100%);}
+.hero-badge{display:inline-block;background:var(--green);color:white;font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:10px;}
+.hero-badge.red{background:var(--red);}
+.hero-main-content h2{font-size:26px;font-weight:800;color:white;line-height:1.25;margin-bottom:8px;}
+.hero-meta{font-size:12px;color:rgba(255,255,255,0.6);}
+.hero-side{display:flex;flex-direction:column;gap:16px;}
+.hero-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--card-shadow);cursor:pointer;transition:box-shadow 0.2s,transform 0.2s;display:flex;flex-direction:column;flex:1;}
+.hero-card:hover{box-shadow:var(--card-hover);transform:translateY(-2px);}
+.hero-card-img{height:140px;overflow:hidden;background:var(--border);}
+.hero-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s;}
+.hero-card:hover .hero-card-img img{transform:scale(1.04);}
+.hero-card-body{padding:14px;flex:1;}
+.hcc{font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;}
+.hero-card-body h3{font-size:14.5px;font-weight:700;line-height:1.35;color:var(--dark);margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.card-meta{font-size:11.5px;color:var(--muted);}
+
+/* AD NETWORK */
+.ad-net{width:100%;background:white;border:1px solid var(--border);border-radius:12px;min-height:90px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;position:relative;overflow:hidden;}
+.ad-net-ph{font-size:11px;color:var(--muted);opacity:0.5;}
+
+/* ARTICLE GRID */
+.article-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.ac{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--card-shadow);cursor:pointer;transition:all 0.2s;position:relative;display:block;}
+.ac:hover{box-shadow:var(--card-hover);transform:translateY(-3px);}
+.ac-img{position:relative;height:160px;overflow:hidden;background:var(--border);}
+.ac-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s;}
+.ac:hover .ac-img img{transform:scale(1.03);}
+.bov{position:absolute;top:10px;left:10px;font-family:var(--fd);font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:white;background:var(--green);padding:3px 8px;border-radius:4px;z-index:2;}
+.bov.red{background:var(--red);}
+.bov.gold{background:#F59E0B;color:#000;}
+.ac-body{padding:14px;}
+.ac-body h3{font-size:14px;font-weight:700;line-height:1.4;margin-bottom:8px;color:var(--dark);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.ac-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);}
+.ac.sponsored{border:2px solid #F59E0B;}
+.sp-tag{position:absolute;top:10px;right:10px;background:#F59E0B;color:#000;font-family:var(--fd);font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:4px;z-index:3;}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 320px;gap:28px;margin-bottom:40px;}
+
+/* TRENDING */
+.trending-list{display:flex;flex-direction:column;}
+.ti{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all 0.15s;}
+.ti:hover{background:var(--green-light);margin:0 -12px;padding:16px 12px;border-radius:8px;border-bottom-color:transparent;}
+.tnum{font-family:var(--fd);font-size:26px;font-weight:800;color:var(--border);line-height:1;min-width:36px;padding-top:2px;transition:color 0.15s;}
+.ti:hover .tnum{color:var(--green);}
+.tcontent{flex:1;}
+.tcat{font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:4px;display:block;}
+.tcat.red{color:var(--red);}
+.tcontent h3{font-size:15px;font-weight:700;line-height:1.35;color:var(--dark);margin-bottom:4px;}
+.tmeta{font-size:12px;color:var(--muted);}
+.tthumb{width:80px;height:80px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--border);}
+.tthumb img{width:100%;height:100%;object-fit:cover;}
+
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:20px;}
+.sw{background:var(--white);border-radius:12px;padding:18px;box-shadow:var(--card-shadow);}
+.wt{font-family:var(--fd);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--black);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--green);}
+.wt.red{border-bottom-color:var(--red);}
+.rate-widget{background:var(--dark)!important;}
+.rate-widget .wt{color:white;}
+.rate-main{display:flex;align-items:flex-end;gap:8px;margin-bottom:6px;}
+.rate-val{font-family:var(--fd);font-size:34px;font-weight:800;color:var(--green);line-height:1;}
+.rate-chg{font-family:var(--fd);font-size:12px;font-weight:700;color:#10B981;background:rgba(16,185,129,0.15);padding:2px 8px;border-radius:100px;margin-bottom:4px;}
+.rate-sub{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;}
+.rate-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
+.ri{background:rgba(255,255,255,0.07);border-radius:8px;padding:10px;}
+.ri-label{font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:2px;}
+.ri-val{font-family:var(--fd);font-size:15px;font-weight:700;color:white;}
+.score-card{background:var(--bg);border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:background 0.15s;}
+.score-card:hover{background:var(--green-light);}
+.score-lg{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;}
+.score-teams{display:flex;align-items:center;justify-content:space-between;}
+.score-team{font-family:var(--fd);font-size:13px;font-weight:700;}
+.score-res{font-family:var(--fd);font-size:15px;font-weight:800;color:var(--red);background:white;border:2px solid var(--red);border-radius:8px;padding:3px 11px;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{font-size:12px;font-weight:500;background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:5px 12px;color:var(--mid);cursor:pointer;transition:all 0.15s;display:inline-block;}
+.tag:hover{background:var(--green-light);border-color:var(--green);color:var(--green);}
+
+/* AD SIDEBAR */
+.ad-sb{border-radius:12px;overflow:hidden;position:relative;}
+.ad-sb-inner{background:linear-gradient(160deg,#006400 0%,#228B22 100%);padding:20px 16px;text-align:center;}
+.ad-sb-inner .s-icon{font-size:32px;margin-bottom:10px;}
+.ad-sb-inner h4{font-family:var(--fd);font-size:15px;font-weight:800;color:white;margin-bottom:6px;}
+.ad-sb-inner p{font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:14px;line-height:1.5;}
+.ad-sb-btn{background:#FFD700;color:#000;font-family:var(--fd);font-size:12px;font-weight:800;padding:9px 18px;border-radius:8px;display:inline-block;}
+
+/* AD FOOTBALL */
+.ad-football{border-radius:14px;overflow:hidden;margin-bottom:20px;position:relative;}
+.ad-football-inner{background:linear-gradient(135deg,#1a0a2e 0%,#2d1b69 50%,#11998e 100%);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.ad-football-text h4{font-family:var(--fd);font-size:15px;font-weight:800;color:white;margin-bottom:4px;}
+.ad-football-text p{font-size:12px;color:rgba(255,255,255,0.65);}
+.ad-football-btn{background:#FFD700;color:#000;font-family:var(--fd);font-size:12px;font-weight:800;padding:10px 22px;border-radius:8px;white-space:nowrap;flex-shrink:0;display:inline-block;}
+
+/* FOOTBALL SECTION */
+.football-section{background:var(--dark);border-radius:16px;padding:24px;margin-bottom:40px;}
+.football-section .section-header{border-bottom-color:rgba(255,255,255,0.15);}
+.football-section .section-header h2{color:white;}
+.football-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.fc{background:rgba(255,255,255,0.06);border-radius:12px;overflow:hidden;cursor:pointer;transition:background 0.2s;border:1px solid rgba(255,255,255,0.08);display:block;}
+.fc:hover{background:rgba(255,255,255,0.1);}
+.fc-img{height:130px;position:relative;overflow:hidden;}
+.fc-img img{width:100%;height:100%;object-fit:cover;opacity:0.75;}
+.fc-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);}
+.fc-score{position:absolute;bottom:8px;left:12px;right:12px;z-index:2;display:flex;align-items:center;justify-content:space-between;}
+.fc-team{font-family:var(--fd);font-size:11px;font-weight:700;color:white;}
+.fc-sc{font-family:var(--fd);font-size:13px;font-weight:800;color:white;background:var(--red);padding:2px 8px;border-radius:6px;}
+.fc-body{padding:12px;}
+.fc-body h3{font-size:13px;font-weight:700;color:white;line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.fc-body .meta{font-size:11px;color:rgba(255,255,255,0.45);}
+
+/* AD PREFOOTER */
+.ad-pf{border-radius:14px;overflow:hidden;margin-bottom:0;position:relative;}
+.ad-pf-inner{background:linear-gradient(120deg,#FF6B35 0%,#F7C59F 50%,#FFDA79 100%);padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.ad-pf-text h4{font-family:var(--fd);font-size:18px;font-weight:800;color:var(--black);}
+.ad-pf-text p{font-size:13px;color:rgba(0,0,0,0.65);margin-top:4px;}
+.ad-pf-btn{background:var(--black);color:white;font-family:var(--fd);font-size:13px;font-weight:700;padding:11px 24px;border-radius:8px;white-space:nowrap;flex-shrink:0;display:inline-block;}
+
+/* CAT PAGE */
+.cat-ph{background:var(--dark);padding:32px 20px;margin-bottom:0;}
+.cat-ph-in{max-width:1200px;margin:0 auto;}
+.cat-ph h1{font-size:32px;font-weight:800;color:white;margin-bottom:6px;}
+.cat-ph p{font-size:14px;color:rgba(255,255,255,0.55);}
+
+/* STATIC PAGES */
+.sp{max-width:800px;margin:0 auto;padding:40px 20px;}
+.sp h1{font-size:32px;font-weight:800;color:var(--dark);margin-bottom:8px;}
+.sp .lu{font-size:13px;color:var(--muted);margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--border);}
+.sp h2{font-size:20px;font-weight:800;color:var(--dark);margin:28px 0 12px;}
+.sp h3{font-size:16px;font-weight:700;color:var(--dark);margin:20px 0 8px;}
+.sp p{font-size:15px;line-height:1.8;color:var(--mid);margin-bottom:16px;}
+.sp ul,.sp ol{margin:0 0 16px 24px;}
+.sp li{font-size:15px;line-height:1.8;color:var(--mid);margin-bottom:6px;}
+.sp a{color:var(--green);}
+.sp a:hover{text-decoration:underline;}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0;}
+.cc{background:white;border-radius:12px;padding:20px;box-shadow:var(--card-shadow);text-align:center;}
+.cc .ci{font-size:28px;margin-bottom:10px;}
+.cc h3{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:6px;}
+.cc p{font-size:13px;color:var(--muted);margin:0;}
+.cc a{color:var(--green);font-weight:600;}
+
+/* ARTICLE PAGE */
+.art-wrap{max-width:800px;}
+.a-cat{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:10px;display:block;}
+.a-cat.red{color:var(--red);}
+.art-header h1{font-size:28px;font-weight:800;line-height:1.2;color:var(--dark);margin-bottom:12px;}
+.art-byline{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+.art-img{width:100%;height:400px;object-fit:cover;border-radius:12px;margin-bottom:24px;background:var(--border);}
+.art-body{font-size:16px;line-height:1.85;color:var(--mid);}
+.art-body h2{font-size:22px;font-weight:800;color:var(--dark);margin:28px 0 12px;}
+.art-body h3{font-size:18px;font-weight:700;color:var(--dark);margin:22px 0 10px;}
+.art-body p{margin-bottom:18px;}
+.art-body ul,.art-body ol{margin:0 0 18px 24px;}
+.art-body li{margin-bottom:8px;}
+.art-2col{display:grid;grid-template-columns:1fr 300px;gap:28px;max-width:1200px;margin:0 auto;padding:24px 16px;}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--fd);font-size:13px;font-weight:700;color:var(--green);cursor:pointer;margin-bottom:16px;background:none;border:none;padding:0;}
+
+/* FOOTER */
+footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24px;margin-top:20px;}
+.fi{max-width:1200px;margin:0 auto;}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px;}
+.flogo{font-family:var(--fd);font-size:22px;font-weight:800;color:white;letter-spacing:-0.5px;display:block;margin-bottom:12px;cursor:pointer;}
+.flogo span{color:var(--green);}
+.fbrand p{font-size:13px;line-height:1.75;color:rgba(255,255,255,0.5);max-width:280px;}
+.fsocials{display:flex;gap:10px;margin-top:16px;}
+.fsoc{width:36px;height:36px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:rgba(255,255,255,0.6);transition:all 0.2s;text-decoration:none;}
+.fsoc:hover{background:var(--green);border-color:var(--green);color:white;}
+.fcol h4{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:white;margin-bottom:16px;}
+.fcol a{display:block;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:10px;transition:color 0.15s;cursor:pointer;}
+.fcol a:hover{color:var(--green);}
+.fb{border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;display:flex;align-items:center;justify-content:space-between;}
+.fb p{font-size:12.5px;color:rgba(255,255,255,0.4);}
+.flinks{display:flex;gap:20px;}
+.flinks a{font-size:12.5px;color:rgba(255,255,255,0.45);cursor:pointer;}
+.flinks a:hover{color:var(--green);}
+
+/* FADE IN */
+.fi-anim{opacity:0;transform:translateY(16px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.fi-anim.visible{opacity:1;transform:none;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.article-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-main{grid-column:1;grid-row:1;min-height:260px;}
+  .hero-side{flex-direction:row;}
+  .hero-card-img{height:110px;}
+  .hero-main-content h2{font-size:20px;}
+  .article-grid{grid-template-columns:repeat(2,1fr);}
+  .two-col,.art-2col{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .football-grid{grid-template-columns:repeat(2,1fr);}
+  .ft{grid-template-columns:1fr 1fr;gap:28px;}
+  .fbrand{grid-column:1/3;}
+  .fb{flex-direction:column;gap:12px;text-align:center;}
+  .flinks{flex-wrap:wrap;justify-content:center;}
+  .nav-cta{display:none;}
+  .menu-btn{display:flex;}
+  .ad-direct-inner,.ad-football-inner,.ad-pf-inner{flex-direction:column;text-align:center;}
+  .art-img{height:220px;}
+  .art-header h1{font-size:22px;}
+  .cg{grid-template-columns:1fr;}
+  .sp{padding:24px 16px;}
+}
+@media(max-width:480px){
+  .hero-side{flex-direction:column;}
+  .article-grid{grid-template-columns:1fr;}
+  .football-grid{grid-template-columns:1fr;}
+  .ft{grid-template-columns:1fr;}
+  .fbrand{grid-column:1;}
+}
+</style>
+</head>
+<body>
+
+<!-- SHARED NAV -->
+<div id="siteNav">
+<div class="ticker-bar">
+  <div class="ticker-label">Breaking</div>
+  <div class="ticker-track">
+    <span>Dollar to Naira black market rate hits ₦1,640 today</span>
+    <span>JAMB releases 2025 UTME results — check portal now</span>
+    <span>Super Eagles land in Abuja ahead of AFCON qualifiers</span>
+    <span>CBN announces new policy on foreign exchange transactions</span>
+    <span>Arsenal 3-1 Chelsea — Saka scores brace in North London Derby</span>
+    <span>Davido's new album breaks Nigerian streaming records</span>
+    <span>Bitcoin surges — BTC/NGN rate update inside</span>
+    <span>WAEC 2025 timetable released — full schedule available</span>
+    <span>Dollar to Naira black market rate hits ₦1,640 today</span>
+    <span>JAMB releases 2025 UTME results — check portal now</span>
+    <span>Super Eagles land in Abuja ahead of AFCON qualifiers</span>
+    <span>CBN announces new policy on foreign exchange transactions</span>
+    <span>Arsenal 3-1 Chelsea — Saka scores brace in North London Derby</span>
+    <span>Davido's new album breaks Nigerian streaming records</span>
+    <span>Bitcoin surges — BTC/NGN rate update inside</span>
+    <span>WAEC 2025 timetable released — full schedule available</span>
+  </div>
+</div>
+<nav class="navbar">
+  <div class="nav-top">
+    <div class="logo" onclick="showPage('home')">Naija<span>Flash</span><sub>NG</sub></div>
+    <div class="nav-actions">
+      <button class="search-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search</button>
+      <div class="nav-cta" onclick="showPage('contact')">Contact Us</div>
+      <button class="menu-btn" id="menuBtn"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-cats">
+    <div class="nav-cats-inner">
+      <div class="cat-tab active" onclick="showPage('home')">Latest</div>
+      <div class="cat-tab" onclick="showCat('entertainment')">Entertainment</div>
+      <div class="cat-tab" onclick="showCat('finance')">Finance</div>
+      <div class="cat-tab" onclick="showCat('tech')">Tech & Phones</div>
+      <div class="cat-tab" onclick="showCat('health')">Health</div>
+      <div class="cat-tab" onclick="showCat('education')">Education</div>
+      <div class="cat-tab" onclick="showCat('news')">News</div>
+      <div class="cat-tab ftab" onclick="showCat('football')">⚽ Football</div>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a onclick="showPage('home')">Latest</a>
+    <a onclick="showCat('entertainment')">Entertainment</a>
+    <a onclick="showCat('finance')">Finance</a>
+    <a onclick="showCat('tech')">Tech & Phones</a>
+    <a onclick="showCat('health')">Health</a>
+    <a onclick="showCat('education')">Education</a>
+    <a onclick="showCat('news')">News</a>
+    <a onclick="showCat('football')">⚽ Football</a>
+    <a onclick="showPage('about')">About Us</a>
+    <a onclick="showPage('contact')">Contact Us</a>
+    <a onclick="showPage('advertise')">Advertise</a>
+    <a onclick="showPage('privacy')">Privacy Policy</a>
+  </div>
+</nav>
+<!-- AD SLOT 1 DIRECT BRANDED -->
+<div class="ad-direct">
+  <span class="ad-lbl">Sponsored</span>
+  <div class="ad-direct-inner">
+    <div class="ad-direct-text">
+      <h4>Convert Crypto to Naira Instantly — Best Rates Guaranteed</h4>
+      <p>UnrugX Exchange · USDT, BTC, ETH · Instant bank transfer · No hidden fees</p>
+    </div>
+    <a href="https://unrugx.com" target="_blank" class="ad-direct-btn">Start Now →</a>
+  </div>
+</div>
+</div>
+
+<!-- PAGE: HOME -->
+<div id="page-home" class="page active">
+<main class="main-wrap">
+  <section class="hero-grid fi-anim">
+    <div class="hero-main" onclick="showArticle('davido-warner')">
+      <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=900&q=80" alt="Davido">
+      <div class="hero-main-content">
+        <span class="hero-badge">Entertainment</span>
+        <h2>Davido Signs $10M Deal With Warner Music — What This Means For Afrobeats</h2>
+        <p class="hero-meta">By NaijaFlash Desk &nbsp;·&nbsp; 2 hours ago &nbsp;·&nbsp; 4 min read</p>
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="hero-card" onclick="showArticle('dollar-rate')">
+        <div class="hero-card-img"><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80" alt="Dollar"></div>
+        <div class="hero-card-body"><span class="hcc" style="color:var(--red)">Finance</span><h3>Dollar to Naira Rate Today: Black Market & CBN Official Rate</h3><p class="card-meta">1 hour ago · 3 min read</p></div>
+      </div>
+      <div class="hero-card" onclick="showArticle('super-eagles')">
+        <div class="hero-card-img"><img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600&q=80" alt="Eagles"></div>
+        <div class="hero-card-body"><span class="hcc" style="color:var(--red)">⚽ Football</span><h3>Super Eagles Squad Announced For 2025 AFCON Qualifiers</h3><p class="card-meta">3 hours ago · 2 min read</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AD SLOT 2 NETWORK -->
+  <div class="ad-net fi-anim"><span class="ad-lbl ad-lbl-dk">Ad</span><!-- PASTE ADSTERRA SCRIPT HERE --><span class="ad-net-ph">Advertisement</span></div>
+
+  <!-- LATEST -->
+  <section class="sb fi-anim">
+    <div class="section-header"><h2><span class="dot"></span> Latest Stories</h2><span class="see-all">See All →</span></div>
+    <div class="article-grid">
+      <div class="ac" onclick="showArticle('tecno-camon')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=400&q=80" alt="Tecno"><span class="bov">Tech</span></div><div class="ac-body"><h3>Tecno Camon 30 Pro Price in Nigeria — Full Specs, Camera Review & Where To Buy</h3><div class="ac-footer"><span>5 hours ago</span><span>👁 2.4k</span></div></div></div>
+      <div class="ac" onclick="showArticle('malaria')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&q=80" alt="Health"><span class="bov">Health</span></div><div class="ac-body"><h3>Malaria Symptoms In Adults: How To Know If It's Malaria Or Typhoid</h3><div class="ac-footer"><span>6 hours ago</span><span>👁 5.1k</span></div></div></div>
+      <div class="ac" onclick="showArticle('jamb')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80" alt="JAMB"><span class="bov">Education</span></div><div class="ac-body"><h3>JAMB 2025 Result: How To Check Your UTME Score Online Right Now</h3><div class="ac-footer"><span>8 hours ago</span><span>👁 18.2k</span></div></div></div>
+      <!-- AD SLOT 3 IN-FEED -->
+      <div class="ac sponsored"><span class="sp-tag">Sponsored</span><div class="ac-img"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80" alt="Ad"><span class="bov gold">Ad</span></div><div class="ac-body"><h3>Konga Mega Sale: iPhone 15 Now ₦780,000 — Limited Stock Available</h3><div class="ac-footer"><span style="color:var(--green);font-weight:600;">Shop Now →</span><span>📦 Fast Delivery</span></div></div></div>
+      <div class="ac" onclick="showArticle('fuel')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?w=400&q=80" alt="News"><span class="bov red">News</span></div><div class="ac-body"><h3>FG Announces New Fuel Subsidy Policy — What It Means For Nigerians</h3><div class="ac-footer"><span>10 hours ago</span><span>👁 9.7k</span></div></div></div>
+      <div class="ac" onclick="showArticle('waec')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=80" alt="WAEC"><span class="bov">Education</span></div><div class="ac-body"><h3>WAEC 2025 Timetable Released — Full Subject Schedule & Exam Dates</h3><div class="ac-footer"><span>12 hours ago</span><span>👁 14.5k</span></div></div></div>
+      <div class="ac" onclick="showArticle('bitcoin')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&q=80" alt="Bitcoin"><span class="bov">Finance</span></div><div class="ac-body"><h3>Bitcoin Price Naira Today — BTC/NGN Live Rate & Market Analysis</h3><div class="ac-footer"><span>1 hour ago</span><span>👁 3.8k</span></div></div></div>
+      <div class="ac" onclick="showArticle('nollywood')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&q=80" alt="Nollywood"><span class="bov">Entertainment</span></div><div class="ac-body"><h3>Top 10 Highest-Grossing Nollywood Movies Of 2025 So Far</h3><div class="ac-footer"><span>14 hours ago</span><span>👁 7.3k</span></div></div></div>
+    </div>
+  </section>
+
+  <!-- TRENDING + SIDEBAR -->
+  <div class="two-col fi-anim">
+    <div>
+      <div class="section-header"><h2><span class="dot"></span> Trending Now</h2><span class="see-all">See All →</span></div>
+      <div class="trending-list">
+        <div class="ti" onclick="showArticle('make-money')"><div class="tnum">01</div><div class="tcontent"><span class="tcat">Finance</span><h3>How To Make Money Online In Nigeria 2025 — 12 Legit Ways That Actually Work</h3><p class="tmeta">12k reads · 2 hours ago</p></div><div class="tthumb"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=200&q=80" alt=""></div></div>
+        <div class="ti" onclick="showArticle('waec')"><div class="tnum">02</div><div class="tcontent"><span class="tcat">Education</span><h3>WAEC 2025 Timetable: Full Subject Schedule & Exam Dates Released</h3><p class="tmeta">8.4k reads · 5 hours ago</p></div><div class="tthumb"><img src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=200&q=80" alt=""></div></div>
+        <div class="ti" onclick="showArticle('barca-madrid')"><div class="tnum">03</div><div class="tcontent"><span class="tcat red">⚽ Football</span><h3>Barcelona 4-0 Real Madrid: Player Ratings As Yamal Destroys El Clasico</h3><p class="tmeta">7.1k reads · 4 hours ago</p></div><div class="tthumb"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=200&q=80" alt=""></div></div>
+        <div class="ti" onclick="showArticle('ulcer')"><div class="tnum">04</div><div class="tcontent"><span class="tcat">Health</span><h3>Best Medication For Stomach Ulcer In Nigeria — Prices & Where To Buy</h3><p class="tmeta">5.8k reads · 7 hours ago</p></div><div class="tthumb"><img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=200&q=80" alt=""></div></div>
+        <div class="ti" onclick="showArticle('burna-wizkid')"><div class="tnum">05</div><div class="tcontent"><span class="tcat">Entertainment</span><h3>Burna Boy vs Wizkid: Everything That Happened & Who Said What</h3><p class="tmeta">4.3k reads · 9 hours ago</p></div><div class="tthumb"><img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&q=80" alt=""></div></div>
+      </div>
+    </div>
+    <aside class="sidebar">
+      <div class="sw rate-widget"><div class="wt">💵 Dollar Rate Today</div><div class="rate-main"><div class="rate-val">₦1,640</div><div class="rate-chg">+₦12</div></div><p class="rate-sub">Black Market · Updated 30 mins ago</p><div class="rate-grid"><div class="ri"><div class="ri-label">CBN Rate</div><div class="ri-val">₦1,581</div></div><div class="ri"><div class="ri-label">USDT/₦</div><div class="ri-val">₦1,635</div></div><div class="ri"><div class="ri-label">GBP/₦</div><div class="ri-val">₦2,080</div></div><div class="ri"><div class="ri-label">EUR/₦</div><div class="ri-val">₦1,760</div></div></div></div>
+      <div class="sw"><div class="wt red">⚽ Latest Scores</div><div class="score-card"><div class="score-lg">Premier League · FT</div><div class="score-teams"><span class="score-team">Arsenal</span><span class="score-res">3 – 1</span><span class="score-team">Chelsea</span></div></div><div class="score-card"><div class="score-lg">La Liga · FT</div><div class="score-teams"><span class="score-team">Barcelona</span><span class="score-res">4 – 0</span><span class="score-team">Real Madrid</span></div></div><div class="score-card"><div class="score-lg">UCL · FT</div><div class="score-teams"><span class="score-team">Man City</span><span class="score-res">2 – 2</span><span class="score-team">PSG</span></div></div></div>
+      <!-- AD SLOT 4 SIDEBAR -->
+      <div class="ad-sb"><span class="ad-lbl">Sponsored</span><!-- PASTE ADSTERRA SIDEBAR SCRIPT HERE --><div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery on orders above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div></div>
+      <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap"><span class="tag">Dollar Rate</span><span class="tag">JAMB 2025</span><span class="tag">Super Eagles</span><span class="tag">Davido</span><span class="tag">iPhone 16</span><span class="tag">Crypto Nigeria</span><span class="tag">WAEC</span><span class="tag">Dangote</span><span class="tag">Afrobeats</span><span class="tag">Premier League</span><span class="tag">Scholarship 2025</span><span class="tag">Osimhen</span></div></div>
+    </aside>
+  </div>
+
+  <!-- AD SLOT 5 FOOTBALL BANNER -->
+  <div class="ad-football fi-anim"><span class="ad-lbl">Sponsored</span><!-- PASTE ADSTERRA SCRIPT HERE --><div class="ad-football-inner"><div class="ad-football-text"><h4>SportyBet — Bet On Live Matches Now</h4><p>100% welcome bonus · Instant cash out · 500+ markets daily</p></div><a href="#" class="ad-football-btn">Bet Now →</a></div></div>
+
+  <!-- FOOTBALL SECTION -->
+  <section class="football-section fi-anim">
+    <div class="section-header"><h2><span class="dot red"></span> Football</h2><span class="see-all red" onclick="showCat('football')">More Football →</span></div>
+    <div class="football-grid">
+      <div class="fc" onclick="showArticle('barca-madrid')"><div class="fc-img"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80" alt="Clasico"><div class="fc-score"><span class="fc-team">Barcelona</span><span class="fc-sc">4 – 0</span><span class="fc-team">Real Madrid</span></div></div><div class="fc-body"><h3>Yamal Masterclass: Barcelona Crush Real Madrid In Historic El Clasico</h3><p class="meta">La Liga · 2 hours ago</p></div></div>
+      <div class="fc" onclick="showArticle('arsenal-chelsea')"><div class="fc-img"><img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600&q=80" alt="Arsenal"><div class="fc-score"><span class="fc-team">Arsenal</span><span class="fc-sc">3 – 1</span><span class="fc-team">Chelsea</span></div></div><div class="fc-body"><h3>Saka Brace Seals It: Arsenal Go Top After Demolishing Chelsea</h3><p class="meta">Premier League · 4 hours ago</p></div></div>
+      <div class="fc" onclick="showArticle('super-eagles')"><div class="fc-img"><img src="https://images.unsplash.com/photo-1551958219-acbc5a56f945?w=600&q=80" alt="Eagles"><div class="fc-score"><span class="fc-team">Super Eagles</span><span class="fc-sc">2 – 0</span><span class="fc-team">Ghana</span></div></div><div class="fc-body"><h3>Super Eagles Beat Ghana 2-0 — Osimhen & Lookman On The Score Sheet</h3><p class="meta">AFCON Qualifiers · 1 day ago</p></div></div>
+    </div>
+  </section>
+
+  <!-- FINANCE SECTION -->
+  <section class="sb fi-anim">
+    <div class="section-header"><h2><span class="dot"></span> Finance & Money</h2><span class="see-all" onclick="showCat('finance')">See All →</span></div>
+    <div class="article-grid">
+      <div class="ac" onclick="showArticle('bitcoin')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&q=80" alt="Bitcoin"><span class="bov">Finance</span></div><div class="ac-body"><h3>Bitcoin Price Naira Today — BTC/NGN Live Rate & Prediction</h3><div class="ac-footer"><span>1 hour ago</span><span>👁 3.8k</span></div></div></div>
+      <div class="ac" onclick="showArticle('fintech')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&q=80" alt="Fintech"><span class="bov">Finance</span></div><div class="ac-body"><h3>Top 5 Nigerian Fintech Apps To Send Money Abroad In 2025</h3><div class="ac-footer"><span>3 hours ago</span><span>👁 6.2k</span></div></div></div>
+      <div class="ac" onclick="showArticle('us-stocks')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&q=80" alt="Stocks"><span class="bov">Finance</span></div><div class="ac-body"><h3>How To Invest In US Stocks From Nigeria Using Chaka Or Bamboo</h3><div class="ac-footer"><span>5 hours ago</span><span>👁 4.4k</span></div></div></div>
+      <div class="ac" onclick="showArticle('usdt')"><div class="ac-img"><img src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=400&q=80" alt="USDT"><span class="bov">Finance</span></div><div class="ac-body"><h3>USDT To Naira Today: Best P2P Rates On Binance & Bybit</h3><div class="ac-footer"><span>30 mins ago</span><span>👁 7.9k</span></div></div></div>
+    </div>
+  </section>
+
+  <!-- AD SLOT 6 PRE-FOOTER -->
+  <div class="ad-pf fi-anim"><span class="ad-lbl ad-lbl-dk">Sponsored</span><!-- PASTE ADSTERRA SCRIPT HERE --><div class="ad-pf-inner"><div class="ad-pf-text"><h4>Sell Your Phone Online — Get Paid In Minutes</h4><p>Tokunbo & UK-used phones wanted. Instant bank transfer. Free pickup in Lagos & Abuja.</p></div><a href="#" class="ad-pf-btn">Get Instant Quote →</a></div></div>
+</main>
+</div>
+
+<!-- PAGE: CATEGORY -->
+<div id="page-category" class="page">
+  <div class="cat-ph"><div class="cat-ph-in"><h1 id="catTitle">Finance & Money</h1><p id="catDesc">Latest finance and money news</p></div></div>
+  <main class="main-wrap">
+    <div class="two-col">
+      <div><div class="article-grid" id="catGrid"></div></div>
+      <aside class="sidebar">
+        <div class="sw rate-widget"><div class="wt">💵 Dollar Rate Today</div><div class="rate-main"><div class="rate-val">₦1,640</div><div class="rate-chg">+₦12</div></div><p class="rate-sub">Black Market · Updated 30 mins ago</p><div class="rate-grid"><div class="ri"><div class="ri-label">CBN Rate</div><div class="ri-val">₦1,581</div></div><div class="ri"><div class="ri-label">USDT/₦</div><div class="ri-val">₦1,635</div></div><div class="ri"><div class="ri-label">GBP/₦</div><div class="ri-val">₦2,080</div></div><div class="ri"><div class="ri-label">EUR/₦</div><div class="ri-val">₦1,760</div></div></div></div>
+        <div class="ad-sb"><span class="ad-lbl">Sponsored</span><div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div></div>
+        <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap"><span class="tag">Dollar Rate</span><span class="tag">JAMB 2025</span><span class="tag">Super Eagles</span><span class="tag">Davido</span><span class="tag">iPhone 16</span><span class="tag">Crypto Nigeria</span><span class="tag">WAEC</span></div></div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<!-- PAGE: ARTICLE -->
+<div id="page-article" class="page">
+  <div class="art-2col">
+    <div class="art-wrap">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <div class="art-header">
+        <span class="a-cat" id="artCat">Entertainment</span>
+        <h1 id="artTitle"></h1>
+        <div class="art-byline"><span>✍️ NaijaFlash Desk</span><span id="artTime"></span><span id="artRead"></span></div>
+      </div>
+      <img id="artImg" class="art-img" src="" alt="">
+      <div class="ad-net" style="margin-bottom:24px;"><span class="ad-lbl ad-lbl-dk">Ad</span><!-- PASTE ADSTERRA SCRIPT HERE --><span class="ad-net-ph">Advertisement</span></div>
+      <div class="art-body" id="artBody"></div>
+      <div class="ad-net" style="margin:28px 0;"><span class="ad-lbl ad-lbl-dk">Ad</span><!-- PASTE ADSTERRA SCRIPT HERE --><span class="ad-net-ph">Advertisement</span></div>
+      <div style="margin-top:32px;"><div class="section-header"><h2><span class="dot"></span> Related Articles</h2></div><div class="article-grid" style="grid-template-columns:repeat(2,1fr);" id="relGrid"></div></div>
+      <div class="ad-net" style="margin-top:28px;"><span class="ad-lbl ad-lbl-dk">Ad</span><!-- PASTE ADSTERRA SCRIPT HERE --><span class="ad-net-ph">Advertisement</span></div>
+    </div>
+    <aside class="sidebar" style="display:flex;">
+      <div class="sw rate-widget"><div class="wt">💵 Dollar Rate Today</div><div class="rate-main"><div class="rate-val">₦1,640</div><div class="rate-chg">+₦12</div></div><p class="rate-sub">Black Market · Updated 30 mins ago</p><div class="rate-grid"><div class="ri"><div class="ri-label">CBN Rate</div><div class="ri-val">₦1,581</div></div><div class="ri"><div class="ri-label">USDT/₦</div><div class="ri-val">₦1,635</div></div><div class="ri"><div class="ri-label">GBP/₦</div><div class="ri-val">₦2,080</div></div><div class="ri"><div class="ri-label">EUR/₦</div><div class="ri-val">₦1,760</div></div></div></div>
+      <div class="ad-sb"><span class="ad-lbl">Sponsored</span><div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div></div>
+      <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap"><span class="tag">Dollar Rate</span><span class="tag">JAMB 2025</span><span class="tag">Super Eagles</span><span class="tag">Davido</span><span class="tag">iPhone 16</span><span class="tag">Crypto Nigeria</span><span class="tag">WAEC</span></div></div>
+    </aside>
+  </div>
+</div>
+
+<!-- PAGE: ABOUT -->
+<div id="page-about" class="page">
+<main class="main-wrap"><div class="sp">
+  <h1>About NaijaFlash</h1>
+  <p class="lu">Nigeria's fastest-growing digital news platform</p>
+  <p>NaijaFlash is Nigeria's fastest-growing digital news and information platform, built for Nigerians who want the latest stories delivered fast, accurate, and in a voice they understand.</p>
+  <p>We cover everything that matters to everyday Nigerians — from entertainment and Nollywood to dollar rates and crypto, tech and phones, health tips, education, jobs, politics, and of course, football. Whether it's the Super Eagles, Premier League, or El Clasico, we've got you covered.</p>
+  <p>At NaijaFlash, we don't just report the news — we break it down the Nigerian way. No grammar competition, no long grammar. Just straight, clear information you can act on.</p>
+  <p>We are independent, we are fast, and we are built for you.</p>
+  <h2>Our Coverage Areas</h2>
+  <ul><li>Entertainment & Nollywood</li><li>Finance, Dollar Rate & Crypto</li><li>Tech & Phones</li><li>Health & Wellness</li><li>Education & Jobs</li><li>News & Politics</li><li>Football — Local & International</li></ul>
+  <h2>Our Mission</h2>
+  <p>To deliver fast, accurate, and engaging news to every Nigerian, anywhere in the world — in a language and tone that feels like home.</p>
+  <h2>Contact Us</h2>
+  <p>For enquiries, partnerships, or advertising: <a href="mailto:naijaflash1@gmail.com">naijaflash1@gmail.com</a></p>
+  <p>Follow us on <a href="https://x.com/Naija_flash" target="_blank">Twitter/X</a>, <a href="https://facebook.com/naijaflashng" target="_blank">Facebook</a>, and <a href="https://whatsapp.com/channel/0029Vb8BrSmKGGGM4JLGHp1R" target="_blank">WhatsApp Channel</a>.</p>
+</div></main>
+</div>
+
+<!-- PAGE: CONTACT -->
+<div id="page-contact" class="page">
+<main class="main-wrap"><div class="sp">
+  <h1>Contact Us</h1>
+  <p class="lu">We'd love to hear from you</p>
+  <p>Have a story tip, correction, partnership proposal, or advertising enquiry? Reach out to the NaijaFlash team through any of the channels below.</p>
+  <div class="cg">
+    <div class="cc"><div class="ci">📧</div><h3>Email Us</h3><p><a href="mailto:naijaflash1@gmail.com">naijaflash1@gmail.com</a></p><p style="margin-top:6px;font-size:12px;">We respond within 24 hours</p></div>
+    <div class="cc"><div class="ci">🐦</div><h3>Twitter / X</h3><p><a href="https://x.com/Naija_flash" target="_blank">@Naija_flash</a></p><p style="margin-top:6px;font-size:12px;">DMs open for quick enquiries</p></div>
+    <div class="cc"><div class="ci">📘</div><h3>Facebook</h3><p><a href="https://facebook.com/naijaflashng" target="_blank">NaijaFlash NG</a></p><p style="margin-top:6px;font-size:12px;">Send us a message on Facebook</p></div>
+    <div class="cc"><div class="ci">💬</div><h3>WhatsApp Channel</h3><p><a href="https://whatsapp.com/channel/0029Vb8BrSmKGGGM4JLGHp1R" target="_blank">Join Our Channel</a></p><p style="margin-top:6px;font-size:12px;">Get updates directly on WhatsApp</p></div>
+  </div>
+  <h2>Story Tips & Corrections</h2>
+  <p>If you have a news tip or notice an error in any of our articles, please email us at <a href="mailto:naijaflash1@gmail.com">naijaflash1@gmail.com</a> with the subject line "Story Tip" or "Correction". We take accuracy seriously and will address all corrections promptly.</p>
+  <h2>Advertising Enquiries</h2>
+  <p>Interested in advertising on NaijaFlash? Email us at <a href="mailto:naijaflash1@gmail.com">naijaflash1@gmail.com</a> with the subject line "Advertising" and we will get back to you with our media kit and rates.</p>
+</div></main>
+</div>
+
+<!-- PAGE: ADVERTISE -->
+<div id="page-advertise" class="page">
+<main class="main-wrap"><div class="sp">
+  <h1>Advertise With Us</h1>
+  <p class="lu">Reach millions of Nigerians with your brand</p>
+  <p>NaijaFlash gives your brand direct access to a fast-growing, highly engaged Nigerian audience across entertainment, finance, tech, health, education, and football.</p>
+  <h2>Why Advertise on NaijaFlash?</h2>
+  <ul><li>Fast-growing Nigerian audience — mobile-first readers</li><li>Multiple niche categories for targeted placement</li><li>High-engagement content that keeps readers on the page</li><li>Flexible ad formats — banners, in-feed, sponsored articles</li><li>Direct advertiser control via our management system</li></ul>
+  <h2>Ad Placement Options</h2>
+  <ul><li><strong>Top Leaderboard</strong> — Maximum visibility, seen by every visitor</li><li><strong>Mid-Page Banner</strong> — High CTR placement inside content feed</li><li><strong>In-Feed Sponsored Card</strong> — Native ad that blends with articles</li><li><strong>Sidebar Placement</strong> — Persistent visibility as readers scroll</li><li><strong>Inside Article</strong> — Captured audience mid-read</li><li><strong>Pre-Footer Banner</strong> — High-intent placement for engaged readers</li></ul>
+  <h2>Who Should Advertise?</h2>
+  <p>Our platform is ideal for betting companies, fintech apps, phone sellers, online stores, educational platforms, health brands, and any business targeting Nigerian consumers.</p>
+  <h2>Get In Touch</h2>
+  <p>Email us at <a href="mailto:naijaflash1@gmail.com">naijaflash1@gmail.com</a> with the subject line <strong>"Advertising"</strong> and we will respond with our media kit, audience stats, and pricing within 24 hours.</p>
+</div></main>
+</div>
+
+<!-- PAGE: PRIVACY -->
+<div id="page-privacy" class="page">
+<main class="main-wrap"><div class="sp">
+  <h1>Privacy Policy</h1>
+  <p class="lu">Last updated: June 2025</p>
+  <p>At NaijaFlash, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website.</p>
+  <h2>Information We Collect</h2>
+  <ul><li><strong>Usage Data:</strong> Pages visited, time spent, and links clicked.</li><li><strong>Device Information:</strong> Browser type, operating system, device type, and IP address.</li><li><strong>Cookies:</strong> Small data files stored on your device to improve your experience and deliver relevant advertisements.</li><li><strong>Email Address:</strong> Only if you voluntarily subscribe to our newsletter or contact us directly.</li></ul>
+  <h2>How We Use Your Information</h2>
+  <ul><li>Deliver and improve our news content and user experience</li><li>Analyse website traffic and reader behaviour</li><li>Serve relevant advertisements through our ad network partners</li><li>Send newsletters to subscribers who have opted in</li><li>Respond to enquiries sent to us directly</li></ul>
+  <h2>Advertising & Third Parties</h2>
+  <p>NaijaFlash works with third-party advertising networks including Adsterra and Google AdSense. These networks may use cookies and tracking technologies to serve personalised ads based on your browsing activity. We do not sell your personal data to third parties.</p>
+  <h2>Cookies</h2>
+  <p>We use cookies to enhance your experience on NaijaFlash. You can control or disable cookies through your browser settings. Note that disabling cookies may affect some features on our site.</p>
+  <h2>Data Security</h2>
+  <p>We take reasonable measures to protect your information from unauthorised access. However, no method of transmission over the internet is 100% secure.</p>
+  <h2>Children's Privacy</h2>
+  <p>NaijaFlash is not directed at children under the age of 13. We do not knowingly collect personal information from children.</p>
+  <h2>Changes To This Policy</h2>
+  <p>We may update this Privacy Policy from time to time. We will notify readers of significant changes by updating the date at the top of this page.</p>
+  <h2>Contact Us</h2>
+  <p>Questions about this Privacy Policy? Contact us at <a href="mailto:naijaflash1@gmail.com">naijaflash1@gmail.com</a>.</p>
+</div></main>
+</div>
+
+<!-- PAGE: TERMS -->
+<div id="page-terms" class="page">
+<main class="main-wrap"><div class="sp">
+  <h1>Terms of Use</h1>
+  <p class="lu">Last updated: June 2025</p>
+  <p>By accessing or using NaijaFlash, you agree to be bound by these Terms of Use. Please read them carefully.</p>
+  <h2>Acceptance of Terms</h2>
+  <p>By visiting NaijaFlash, you confirm that you are at least 13 years of age and agree to these terms.</p>
+  <h2>Content & Intellectual Property</h2>
+  <p>All articles, images, graphics, and other content published on NaijaFlash are the intellectual property of NaijaFlash or its content partners. You may not reproduce, republish, or distribute our content without prior written permission.</p>
+  <h2>User Conduct</h2>
+  <p>When using NaijaFlash, you agree not to use the platform for any unlawful purpose, attempt to interfere with the website's functionality, scrape or republish our content without permission, or spread misinformation.</p>
+  <h2>Disclaimer of Warranties</h2>
+  <p>NaijaFlash provides content for informational purposes only. We do not guarantee the accuracy, completeness, or timeliness of any information published.</p>
+  <h2>Financial & Health Disclaimer</h2>
+  <p>Content related to finance, crypto, investments, or health on NaijaFlash is for informational purposes only and does not constitute professional financial, investment, or medical advice.</p>
+  <h2>Changes to Terms</h2>
+  <p>We reserve the right to update these Terms of Use at any time. Continued use of the website following any changes constitutes your acceptance of the new terms.</p>
+  <h2>Contact</h2>
+  <p>Questions about these terms? Contact us at <a href="mailto:naijaflash1@gmail.com">naijaflash1@gmail.com</a>.</p>
+</div></main>
+</div>
+
+<!-- PAGE: COOKIES -->
+<div id="page-cookies" class="page">
+<main class="main-wrap"><div class="sp">
+  <h1>Cookie Policy</h1>
+  <p class="lu">Last updated: June 2025</p>
+  <p>This Cookie Policy explains how NaijaFlash uses cookies and similar tracking technologies on our website.</p>
+  <h2>What Are Cookies?</h2>
+  <p>Cookies are small text files stored on your device when you visit a website. They help websites remember your preferences, improve performance, and deliver relevant advertisements.</p>
+  <h2>Types of Cookies We Use</h2>
+  <h3>Essential Cookies</h3>
+  <p>Necessary for the website to function properly. The website cannot work correctly without these cookies.</p>
+  <h3>Analytics Cookies</h3>
+  <p>We use analytics cookies to understand how visitors interact with NaijaFlash. Data collected is aggregated and anonymous.</p>
+  <h3>Advertising Cookies</h3>
+  <p>Our advertising partners (including Adsterra and Google AdSense) use cookies to deliver advertisements relevant to your interests.</p>
+  <h2>Managing Cookies</h2>
+  <p>You can control or delete cookies through your browser settings. Note that disabling certain cookies may affect your experience on NaijaFlash.</p>
+  <h2>Contact</h2>
+  <p>Questions about our use of cookies? Contact us at <a href="mailto:naijaflash1@gmail.com">naijaflash1@gmail.com</a>.</p>
+</div></main>
+</div>
+
+<!-- PAGE: DISCLAIMER -->
+<div id="page-disclaimer" class="page">
+<main class="main-wrap"><div class="sp">
+  <h1>Disclaimer</h1>
+  <p class="lu">Last updated: June 2025</p>
+  <p>The information published on NaijaFlash is for general informational and entertainment purposes only. While we strive for accuracy and timeliness, we make no representations regarding the completeness or reliability of any content on this website.</p>
+  <h2>News & Editorial Content</h2>
+  <p>All news articles are written based on available information at the time of publication. Situations may change after publication. NaijaFlash is not responsible for outdated information and encourages readers to verify breaking news from multiple sources.</p>
+  <h2>Financial Information</h2>
+  <p>Exchange rates, cryptocurrency prices, and financial information on NaijaFlash are for informational purposes only. They do not constitute financial advice. Always verify rates directly with financial institutions before making transactions.</p>
+  <h2>Health Information</h2>
+  <p>Health-related content on NaijaFlash is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for medical concerns.</p>
+  <h2>Advertised Content</h2>
+  <p>Sponsored and advertised content on NaijaFlash is clearly labelled. NaijaFlash is not responsible for products or services advertised on the platform.</p>
+  <h2>Contact</h2>
+  <p>For concerns about any content on NaijaFlash, contact us at <a href="mailto:naijaflash1@gmail.com">naijaflash1@gmail.com</a>.</p>
+</div></main>
+</div>
+
+<!-- SHARED FOOTER -->
+<footer>
+  <div class="fi">
+    <div class="ft">
+      <div class="fbrand">
+        <div class="flogo" onclick="showPage('home')">Naija<span>Flash</span></div>
+        <p>Nigeria's fastest-growing news and information platform. Entertainment, finance, tech, health, education, and football — in real Nigerian voice.</p>
+        <div class="fsocials">
+          <a href="https://facebook.com/naijaflashng" target="_blank" class="fsoc" title="Facebook">f</a>
+          <a href="https://x.com/Naija_flash" target="_blank" class="fsoc" title="Twitter/X">𝕏</a>
+          <a href="https://whatsapp.com/channel/0029Vb8BrSmKGGGM4JLGHp1R" target="_blank" class="fsoc" title="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div class="fcol">
+        <h4>Categories</h4>
+        <a onclick="showCat('entertainment')">Entertainment</a>
+        <a onclick="showCat('finance')">Finance & Money</a>
+        <a onclick="showCat('tech')">Tech & Phones</a>
+        <a onclick="showCat('health')">Health</a>
+        <a onclick="showCat('education')">Education & Jobs</a>
+        <a onclick="showCat('news')">News & Politics</a>
+        <a onclick="showCat('football')">⚽ Football</a>
+      </div>
+      <div class="fcol">
+        <h4>Company</h4>
+        <a onclick="showPage('about')">About Us</a>
+        <a onclick="showPage('contact')">Contact Us</a>
+        <a onclick="showPage('advertise')">Advertise With Us</a>
+      </div>
+      <div class="fcol">
+        <h4>Legal</h4>
+        <a onclick="showPage('privacy')">Privacy Policy</a>
+        <a onclick="showPage('terms')">Terms of Use</a>
+        <a onclick="showPage('cookies')">Cookie Policy</a>
+        <a onclick="showPage('disclaimer')">Disclaimer</a>
+      </div>
+    </div>
+    <div class="fb">
+      <p>© 2025 NaijaFlash. All rights reserved.</p>
+      <div class="flinks">
+        <a onclick="showPage('privacy')">Privacy Policy</a>
+        <a onclick="showPage('terms')">Terms</a>
+        <a onclick="showPage('contact')">Contact</a>
+        <a onclick="showPage('advertise')">Advertise</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── ARTICLE DATA ──
+const A={
+'davido-warner':{title:"Davido Signs $10M Deal With Warner Music — What This Means For Afrobeats",cat:"Entertainment",cr:"green",time:"2 hours ago",read:"4 min read",img:"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=900&q=80",body:`<p>Nigerian superstar Davido has officially signed a landmark $10 million deal with Warner Music Group, making him one of the highest-paid African artists in the global music industry. The deal covers a multi-album recording contract and a share of streaming royalties across all major platforms.</p><h2>What The Deal Covers</h2><p>The partnership gives Warner Music global distribution rights to Davido's upcoming projects, while the artist retains creative control over his music. This kind of arrangement is rare in the industry and reflects Davido's strong negotiating position.</p><h2>Why This Is Big For Afrobeats</h2><p>This deal signals that major global labels are no longer treating Afrobeats as a niche genre. With streaming numbers from Nigerian artists hitting record highs monthly, Warner's investment is a direct acknowledgment that the genre has arrived on the world stage.</p><h2>What Happens Next</h2><p>Davido is expected to release his first project under the new deal before the end of 2025, with international collaborations backed by Warner's extensive global network.</p>`},
+'dollar-rate':{title:"Dollar to Naira Rate Today: Black Market & CBN Official Rate",cat:"Finance",cr:"red",time:"1 hour ago",read:"3 min read",img:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=900&q=80",body:`<p>The dollar to naira exchange rate continues to fluctuate as market pressures persist. Here is today's comprehensive breakdown across all major markets in Nigeria.</p><h2>Black Market Rate Today</h2><p>As of this morning, the dollar is trading at ₦1,640 to $1 at the parallel market in Lagos. This represents a ₦12 increase from yesterday's rate of ₦1,628.</p><h2>CBN Official Rate</h2><p>The Central Bank of Nigeria (CBN) official rate currently sits at ₦1,581 per dollar.</p><h2>Other Currency Rates Today</h2><p>British Pound (GBP) is trading at ₦2,080, while the Euro (EUR) stands at ₦1,760.</p><h3>USDT to Naira Rate</h3><p>For crypto traders, USDT is currently exchanging for ₦1,635 on major P2P platforms including Binance and Bybit.</p>`},
+'super-eagles':{title:"Super Eagles Squad Announced For 2025 AFCON Qualifiers",cat:"⚽ Football",cr:"red",time:"3 hours ago",read:"2 min read",img:"https://images.unsplash.com/photo-1546519638-68e109498ffc?w=900&q=80",body:`<p>Nigeria Football Federation (NFF) has released the Super Eagles squad for the upcoming Africa Cup of Nations qualifying matches. The 25-man squad includes several new faces alongside the usual big names.</p><h2>Key Players Named</h2><p>Victor Osimhen leads the attack as expected, with Ademola Lookman and Samuel Chukwueze providing support from the wings.</p><h2>Match Schedule</h2><p>Nigeria faces Rwanda on matchday 1, before hosting South Africa in the reverse fixture four days later. Both matches are crucial as the Super Eagles aim to secure early qualification.</p>`},
+'jamb':{title:"JAMB 2025 Result: How To Check Your UTME Score Online Right Now",cat:"Education",cr:"green",time:"8 hours ago",read:"3 min read",img:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=900&q=80",body:`<p>The Joint Admissions and Matriculation Board (JAMB) has officially released the 2025 UTME results. Over 1.9 million candidates can now access their scores.</p><h2>How To Check Your JAMB Result</h2><p><strong>Step 1:</strong> Visit jamb.gov.ng<br><strong>Step 2:</strong> Log in using your registration number and password<br><strong>Step 3:</strong> Click "Check Result" on your dashboard<br><strong>Step 4:</strong> Your score and subject breakdown will be displayed</p><h2>Checking Via SMS</h2><p>Send your registration number to 55019 from the phone number you used during registration.</p><h2>What Score Do You Need?</h2><p>Top federal universities generally require a minimum of 200, while state universities accept from 160.</p>`},
+'barca-madrid':{title:"Barcelona 4-0 Real Madrid: Player Ratings As Yamal Destroys El Clasico",cat:"⚽ Football",cr:"red",time:"4 hours ago",read:"5 min read",img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=900&q=80",body:`<p>Lamine Yamal put on a performance for the ages as Barcelona dismantled rivals Real Madrid 4-0 in a historic El Clasico at Camp Nou. The 17-year-old winger was simply unplayable all game.</p><h2>Match Summary</h2><p>Barcelona went ahead early through Pedri, before Yamal doubled the lead with a stunning curled effort. Lewandowski added a third before half-time, and Raphinha sealed the rout with a late penalty.</p><h2>Player Ratings</h2><p><strong>Yamal (10/10)</strong> — Absolute masterclass.<br><strong>Pedri (8/10)</strong> — Controlled the midfield completely.<br><strong>Lewandowski (8/10)</strong> — Clinical finish, strong hold-up play.</p><h2>Real Madrid's Nightmare</h2><p>For Real Madrid, it was a night to forget. Vinicius Jr was largely anonymous and the defence was repeatedly cut apart by Barcelona's pace.</p>`},
+'arsenal-chelsea':{title:"Saka Brace Seals It: Arsenal Go Top After Demolishing Chelsea",cat:"⚽ Football",cr:"red",time:"4 hours ago",read:"4 min read",img:"https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=900&q=80",body:`<p>Bukayo Saka was the hero as Arsenal defeated Chelsea 3-1 at the Emirates to go top of the Premier League table. The England winger scored twice in the second half after Thomas Partey had given the Gunners an early lead.</p><h2>Match Report</h2><p>Arsenal started brightly with Partey heading home in the 12th minute. Chelsea equalised through Cole Palmer before the break, but the second half was all Arsenal as Saka took control.</p><h2>Title Race Implications</h2><p>Arsenal move two points clear at the top. Manager Mikel Arteta called it "a statement performance" as his side chase their first league title in over two decades.</p>`},
+'make-money':{title:"How To Make Money Online In Nigeria 2025 — 12 Legit Ways That Actually Work",cat:"Finance",cr:"green",time:"2 hours ago",read:"8 min read",img:"https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=900&q=80",body:`<p>Making money online in Nigeria has never been more accessible. With the right skills and the right platforms, you can build a steady income stream from your phone or laptop.</p><h2>1. Freelancing (Fiverr, Upwork)</h2><p>If you have any skill — writing, graphic design, coding, video editing — you can sell it on international platforms and get paid in dollars. Many Nigerian freelancers earn $500 to $2,000 per month.</p><h2>2. Crypto Trading</h2><p>P2P trading on platforms like Binance and Bybit allows you to buy and sell USDT while profiting from the spread between buying and selling rates in naira.</p><h2>3. Content Creation</h2><p>Nigerian creators are monetising on YouTube and TikTok. With consistency and the right niche, you can build an audience that generates ad revenue and brand deals.</p><h2>4. Drop Shipping</h2><p>Source products from Alibaba and sell them on Jumia or your own website without holding inventory.</p>`},
+'waec':{title:"WAEC 2025 Timetable: Full Subject Schedule & Exam Dates Released",cat:"Education",cr:"green",time:"5 hours ago",read:"3 min read",img:"https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=900&q=80",body:`<p>The West African Examinations Council (WAEC) has officially released the timetable for the 2025 WASSCE. Candidates across Nigeria can now access the full schedule.</p><h2>When Does WAEC 2025 Start?</h2><p>The 2025 WAEC examination is scheduled to begin in April and run through June 2025.</p><h2>How To Access The Full Timetable</h2><p>Visit the official WAEC website at waecdirect.org to download the complete timetable. It is also available at your school's examination office.</p>`},
+'ulcer':{title:"Best Medication For Stomach Ulcer In Nigeria — Prices & Where To Buy",cat:"Health",cr:"green",time:"7 hours ago",read:"4 min read",img:"https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=900&q=80",body:`<p>Stomach ulcers are increasingly common in Nigeria, often triggered by stress, H. pylori bacteria, or excessive use of pain medications. Here is a breakdown of the most effective medications available in Nigerian pharmacies.</p><h2>Common Ulcer Medications In Nigeria</h2><p><strong>Omeprazole (Losec):</strong> One of the most prescribed ulcer medications. Available at most pharmacies for between ₦500 and ₦2,000.</p><p><strong>Pantoprazole:</strong> Similar to Omeprazole, often preferred for severe cases. Price ranges from ₦800 to ₦3,000.</p><h2>Important Warning</h2><p>Always consult a doctor before starting ulcer medication. If symptoms persist beyond two weeks, see a medical professional immediately.</p>`},
+'burna-wizkid':{title:"Burna Boy vs Wizkid: Everything That Happened & Who Said What",cat:"Entertainment",cr:"green",time:"9 hours ago",read:"5 min read",img:"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=900&q=80",body:`<p>The ongoing back-and-forth between two of Nigeria's biggest music stars has taken social media by storm. Here is a complete timeline of everything that has happened between Burna Boy and Wizkid.</p><h2>How It Started</h2><p>The tension appeared to begin after a series of cryptic posts on social media, with fans from both camps interpreting the messages as subtle jabs at each other.</p><h2>Where Things Stand Now</h2><p>Industry insiders say both artists have been advised to let the matter rest for the sake of the Afrobeats brand globally. The situation appears to have cooled down for now.</p>`},
+'tecno-camon':{title:"Tecno Camon 30 Pro Price in Nigeria — Full Specs, Camera Review & Where To Buy",cat:"Tech",cr:"green",time:"5 hours ago",read:"4 min read",img:"https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=900&q=80",body:`<p>The Tecno Camon 30 Pro has officially launched in Nigeria and it is making serious noise in the mid-range smartphone segment.</p><h2>Key Specs</h2><p><strong>Display:</strong> 6.78-inch AMOLED, 144Hz<br><strong>Processor:</strong> MediaTek Helio G99 Ultimate<br><strong>Camera:</strong> 50MP main + 50MP telephoto + 13MP ultra-wide<br><strong>Battery:</strong> 5,000mAh with 70W fast charging<br><strong>RAM/Storage:</strong> 8GB RAM, 256GB</p><h2>Price In Nigeria</h2><p>The Tecno Camon 30 Pro is currently priced between ₦380,000 and ₦420,000. Available on Jumia, Slot, and authorised Tecno stores nationwide.</p>`},
+'malaria':{title:"Malaria Symptoms In Adults: How To Know If It's Malaria Or Typhoid",cat:"Health",cr:"green",time:"6 hours ago",read:"4 min read",img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=900&q=80",body:`<p>Malaria and typhoid share several similar symptoms which makes self-diagnosis risky. Here is how to tell them apart.</p><h2>Common Malaria Symptoms</h2><ul><li>High fever (often sudden and severe)</li><li>Chills and shivering</li><li>Headache and body pain</li><li>Sweating after fever breaks</li><li>Symptoms come in cycles (every 48-72 hours)</li></ul><h2>Common Typhoid Symptoms</h2><ul><li>Gradual onset fever that builds over days</li><li>Stomach pain and discomfort</li><li>Extreme fatigue and weakness</li></ul><h2>What To Do</h2><p>Do not self-medicate. Visit a clinic or hospital for a malaria rapid test or blood test. Early treatment is critical and highly effective.</p>`},
+'fuel':{title:"FG Announces New Fuel Subsidy Policy — What It Means For Nigerians",cat:"News",cr:"red",time:"10 hours ago",read:"3 min read",img:"https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?w=900&q=80",body:`<p>The Federal Government of Nigeria has announced a new policy regarding fuel subsidies that is expected to affect petrol prices and household spending across the country.</p><h2>What The Policy Says</h2><p>The new policy outlines a partial support mechanism for petroleum products, aimed at protecting low-income Nigerians while allowing market forces to determine pump prices within a regulated band.</p><h2>Impact On Nigerians</h2><p>The policy is expected to have a direct impact on transportation costs, food prices, and general cost of living. The government has promised palliative measures for vulnerable households.</p>`},
+'bitcoin':{title:"Bitcoin Price Naira Today — BTC/NGN Live Rate & Market Analysis",cat:"Finance",cr:"green",time:"1 hour ago",read:"4 min read",img:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=900&q=80",body:`<p>Bitcoin continues its upward trajectory, trading above $70,000 for the second consecutive week. For Nigerian traders, this translates to significant gains in naira terms.</p><h2>BTC/NGN Rate Today</h2><p>With Bitcoin at approximately $70,500 and USDT trading at ₦1,635 on Nigerian P2P markets, 1 BTC is currently equivalent to approximately ₦115,267,500.</p><h2>For Nigerian Traders</h2><p>Always account for naira volatility in your risk calculations. The spread between buying and selling rates on P2P platforms can significantly affect actual returns. Always use reputable platforms and verify rates before executing large trades.</p>`},
+'nollywood':{title:"Top 10 Highest-Grossing Nollywood Movies Of 2025 So Far",cat:"Entertainment",cr:"green",time:"14 hours ago",read:"4 min read",img:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=900&q=80",body:`<p>Nollywood continues to break box office records in 2025, with several productions surpassing previous milestones.</p><h2>What's Driving The Growth</h2><p>The expansion of cinema screens across Nigerian cities, improved production quality, and stronger marketing campaigns have all contributed to record-breaking ticket sales in 2025.</p><h2>Streaming Impact</h2><p>Netflix Africa and Prime Video continue to co-produce and acquire Nollywood content, giving filmmakers bigger budgets and global distribution.</p>`},
+'fintech':{title:"Top 5 Nigerian Fintech Apps To Send Money Abroad In 2025",cat:"Finance",cr:"green",time:"3 hours ago",read:"4 min read",img:"https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=900&q=80",body:`<p>Sending money abroad from Nigeria has become significantly easier thanks to a growing number of fintech platforms offering competitive rates and fast transfers.</p><h2>1. Grey Finance</h2><p>Grey allows Nigerians to hold foreign currency accounts in USD, GBP, and EUR, and send money internationally with minimal fees.</p><h2>2. Chipper Cash</h2><p>Chipper Cash offers cross-border transfers across Africa and to the US and UK with competitive exchange rates and low transaction fees.</p><h2>3. Leatherback</h2><p>Leatherback provides multi-currency accounts and international transfers with transparent fees.</p><h2>4. Sendwave</h2><p>Sendwave is popular for sending money to family members abroad with zero fees on many transfer corridors.</p><h2>5. Payoneer</h2><p>Widely used by freelancers, Payoneer allows Nigerians to receive international payments and withdraw to their local bank accounts.</p>`},
+'us-stocks':{title:"How To Invest In US Stocks From Nigeria Using Chaka Or Bamboo",cat:"Finance",cr:"green",time:"5 hours ago",read:"5 min read",img:"https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=900&q=80",body:`<p>Investing in US stocks from Nigeria is now possible for everyday Nigerians through dedicated investment apps.</p><h2>Why Invest In US Stocks?</h2><p>US stocks allow Nigerian investors to protect their wealth against naira depreciation while participating in global market growth.</p><h2>Getting Started With Bamboo</h2><p>Download the Bamboo app, complete your KYC verification, fund your account in naira, and start buying fractional shares of US companies. Minimum investment is as low as $1.</p><h2>Getting Started With Chaka</h2><p>Chaka offers access to both US and Nigerian stocks in one platform. It is regulated by the SEC Nigeria and supports bank transfers for funding.</p>`},
+'usdt':{title:"USDT To Naira Today: Best P2P Rates On Binance & Bybit",cat:"Finance",cr:"green",time:"30 mins ago",read:"3 min read",img:"https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=900&q=80",body:`<p>USDT remains the most traded stablecoin in Nigeria, with millions of naira worth of transactions happening daily on P2P platforms.</p><h2>Current USDT/NGN Rate</h2><p>On Binance P2P, USDT is currently selling at between ₦1,628 and ₦1,642. On Bybit P2P, rates range from ₦1,620 to ₦1,635.</p><h2>How To Get The Best Rate</h2><p>Compare multiple merchants before executing a trade. Look for merchants with high completion rates (above 95%) and a large number of completed orders.</p><h2>Safety Tips</h2><p>Always use the platform's built-in escrow system. Never release crypto before confirming payment in your bank account.</p>`}
+};
+
+// ── CATEGORY DATA ──
+const C={
+  entertainment:{title:'Entertainment',desc:'Nollywood, music, celebrities and the latest from Nigerian entertainment',ids:['davido-warner','burna-wizkid','nollywood']},
+  finance:{title:'Finance & Money',desc:'Dollar rate, crypto, investments and money news for Nigerians',ids:['dollar-rate','bitcoin','make-money','fintech','us-stocks','usdt']},
+  tech:{title:'Tech & Phones',desc:'Latest phones, gadgets, apps and tech news in Nigeria',ids:['tecno-camon']},
+  health:{title:'Health',desc:'Symptoms, medications, home remedies and health advice for Nigerians',ids:['malaria','ulcer']},
+  education:{title:'Education & Jobs',desc:'JAMB, WAEC, scholarships, job opportunities and education news',ids:['jamb','waec']},
+  news:{title:'News & Politics',desc:'Nigerian news, government policies and political developments',ids:['fuel']},
+  football:{title:'⚽ Football',desc:'Super Eagles, Premier League, La Liga, Champions League and all football news',ids:['barca-madrid','arsenal-chelsea','super-eagles']}
+};
+
+// ── PAGE HISTORY ──
+let prevPage='home';
+
+function showPage(id){
+  prevPage=document.querySelector('.page.active')?.id?.replace('page-','')||'home';
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(pg) pg.classList.add('active');
+  updateTabs(id);
+  window.scrollTo(0,0);
+  closeMobileMenu();
+}
+
+function goBack(){
+  showPage(prevPage==='article'?'home':prevPage);
+}
+
+function updateTabs(id){
+  document.querySelectorAll('.cat-tab').forEach(t=>{
+    t.classList.remove('active');
+    t.style.borderBottomColor='';
+    t.style.color='';
+  });
+  if(id==='home'){
+    document.querySelector('.cat-tab').classList.add('active');
+  }
+}
+
+function showCat(cat){
+  const d=C[cat];
+  if(!d)return;
+  document.getElementById('catTitle').textContent=d.title;
+  document.getElementById('catDesc').textContent=d.desc;
+  const grid=document.getElementById('catGrid');
+  grid.innerHTML=d.ids.map(id=>{
+    const a=A[id];
+    if(!a)return'';
+    return`<div class="ac" onclick="showArticle('${id}')">
+      <div class="ac-img"><img src="${a.img}" alt="${a.title}"><span class="bov${a.cr==='red'?' red':''}">${a.cat}</span></div>
+      <div class="ac-body"><h3>${a.title}</h3><div class="ac-footer"><span>${a.time}</span><span>${a.read}</span></div></div>
+    </div>`;
+  }).join('');
+  // Update nav tab
+  document.querySelectorAll('.cat-tab').forEach(t=>{
+    t.classList.remove('active');
+    t.style.borderBottomColor='';
+    t.style.color='';
+    const lbl=t.textContent.toLowerCase().replace('⚽ ','');
+    if(lbl.includes(cat)||(cat==='tech'&&lbl.includes('tech'))){
+      t.classList.add('active');
+      if(cat==='football'){t.style.borderBottomColor='var(--red)';t.style.color='var(--red)';}
+    }
+  });
+  prevPage='category';
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-category').classList.add('active');
+  window.scrollTo(0,0);
+  closeMobileMenu();
+}
+
+function showArticle(id){
+  const a=A[id];
+  if(!a)return;
+  document.getElementById('artTitle').textContent=a.title;
+  document.getElementById('artCat').textContent=a.cat;
+  document.getElementById('artCat').className='a-cat'+(a.cr==='red'?' red':'');
+  document.getElementById('artTime').textContent=a.time;
+  document.getElementById('artRead').textContent=a.read;
+  document.getElementById('artImg').src=a.img;
+  document.getElementById('artImg').alt=a.title;
+  document.getElementById('artBody').innerHTML=a.body;
+  // Related
+  const same=Object.entries(A).filter(([k,v])=>k!==id&&v.cat===a.cat).slice(0,2);
+  const other=Object.entries(A).filter(([k])=>k!==id).slice(0,2);
+  const rel=same.length>=2?same:other;
+  document.getElementById('relGrid').innerHTML=rel.map(([rid,r])=>
+    `<div class="ac" onclick="showArticle('${rid}')">
+      <div class="ac-img"><img src="${r.img}" alt="${r.title}"><span class="bov${r.cr==='red'?' red':''}">${r.cat}</span></div>
+      <div class="ac-body"><h3>${r.title}</h3><div class="ac-footer"><span>${r.time}</span><span>${r.read}</span></div></div>
+    </div>`
+  ).join('');
+  prevPage=document.querySelector('.page.active')?.id?.replace('page-','')||'home';
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-article').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function closeMobileMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('menuBtn').addEventListener('click',function(){
+    document.getElementById('mobileMenu').classList.toggle('open');
+  });
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:0.08});
+  document.querySelectorAll('.fi-anim').forEach(el=>obs.observe(el));
+});
+</script>
+</body>
+</html>
