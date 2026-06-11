@@ -234,8 +234,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .art-byline{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:20px;}
 .art-img{width:100%;height:400px;object-fit:cover;border-radius:12px;margin-bottom:24px;background:var(--border);}
 .art-body{font-size:16px;line-height:1.85;color:var(--mid);}
-.art-body h2{font-size:22px;font-weight:800;color:var(--dark);margin:28px 0 12px;}
-.art-body h3{font-size:18px;font-weight:700;color:var(--dark);margin:22px 0 10px;}
+.art-body h2{font-family:var(--fh);font-size:26px;font-weight:400;color:var(--dark);margin:32px 0 12px;line-height:1.2;}
+.art-body h3{font-family:var(--fh);font-size:22px;font-weight:400;color:var(--dark);margin:24px 0 10px;line-height:1.2;}
 .art-body p{margin-bottom:18px;}
 .art-body ul,.art-body ol{margin:0 0 18px 24px;}
 .art-body li{margin-bottom:8px;}
@@ -463,21 +463,14 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
       <!-- ARTICLE IMAGE -->
       <img id="artImg" class="art-img" src="" alt="">
 
-      <!-- AD 2: Network slot — between image and body -->
+      <!-- AD 2: Network slot — between image and first paragraph -->
       <div class="ad-net" style="margin:16px 0;">
         <span class="ad-lbl ad-lbl-dk">Ad</span>
         <!-- PASTE AD NETWORK SCRIPT HERE (SLOT IMG) -->
         <span class="ad-net-ph">Advertisement</span>
       </div>
 
-      <!-- AD 3: Network slot — before body starts -->
-      <div class="ad-net" style="margin-bottom:24px;">
-        <span class="ad-lbl ad-lbl-dk">Ad</span>
-        <!-- PASTE AD NETWORK SCRIPT HERE (SLOT A) -->
-        <span class="ad-net-ph">Advertisement</span>
-      </div>
-
-      <!-- ARTICLE BODY -->
+      <!-- ARTICLE BODY — AD 3 injected after 1st paragraph dynamically -->
       <div class="art-body" id="artBody"></div>
 
       <!-- AD 5: Network slot — after body -->
@@ -770,15 +763,28 @@ async function apiGet(path) {
 
 function timeAgo(dateStr) {
   if (!dateStr) return 'Just now';
-  const diff = Date.now() - new Date(dateStr).getTime();
+  // Ensure UTC is parsed correctly — Railway stores timestamps as UTC
+  // Add 'Z' suffix if not present so JS treats it as UTC, not local time
+  let normalized = dateStr;
+  if (!normalized.endsWith('Z') && !normalized.includes('+') && !normalized.includes('-', 10)) {
+    normalized = normalized.replace(' ', 'T') + 'Z';
+  }
+  const diff = Date.now() - new Date(normalized).getTime();
+  if (diff < 0) return 'Just now'; // future timestamps
   const mins = Math.floor(diff / 60000);
   if (mins < 1) return 'Just now';
-  if (mins < 60) return mins + ' min' + (mins > 1 ? 's' : '') + ' ago';
+  if (mins === 1) return '1 min ago';
+  if (mins < 60) return `${mins} mins ago`;
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return hrs + ' hour' + (hrs > 1 ? 's' : '') + ' ago';
+  if (hrs === 1) return '1 hour ago';
+  if (hrs < 24) return `${hrs} hours ago`;
   const days = Math.floor(hrs / 24);
-  if (days < 7) return days + ' day' + (days > 1 ? 's' : '') + ' ago';
-  return new Date(dateStr).toLocaleDateString('en-NG', { day: 'numeric', month: 'short' });
+  if (days === 1) return 'Yesterday';
+  if (days < 7) return `${days} days ago`;
+  const weeks = Math.floor(days / 7);
+  if (weeks === 1) return '1 week ago';
+  if (weeks < 5) return `${weeks} weeks ago`;
+  return new Date(normalized).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 function readTime(body) {
@@ -1061,21 +1067,15 @@ async function showArticle(slug) {
   document.getElementById('artTitle').textContent = 'Loading...';
   document.getElementById('artBody').innerHTML = '<p style="color:var(--muted)">Fetching article...</p>';
 
-  // Use cache or fetch
-  let a = articleCache[slug];
-  if (!a) {
-    const data = await apiGet('/api/articles/' + slug);
-    if (!data) {
-      document.getElementById('artTitle').textContent = 'Article not found';
-      document.getElementById('artBody').innerHTML = '<p>This article could not be loaded.</p>';
-      return;
-    }
-    a = data;
-    articleCache[slug] = a;
-  } else {
-    // Still increment view count in background
-    fetch(CONFIG.API + '/api/articles/' + slug).catch(() => {});
+  // Always fetch full article from slug endpoint to get complete body
+  const data = await apiGet('/api/articles/' + slug);
+  if (!data) {
+    document.getElementById('artTitle').textContent = 'Article not found';
+    document.getElementById('artBody').innerHTML = '<p>This article could not be loaded.</p>';
+    return;
   }
+  const a = data;
+  articleCache[slug] = a;
 
   const cat = a.category || 'news';
   const cr = catColor(cat);
@@ -1213,16 +1213,16 @@ function injectInArticleAds(bodyId) {
   if (!body) return;
 
   const paragraphs = body.querySelectorAll('p, h2');
-  if (paragraphs.length < 2) return;
+  if (paragraphs.length < 1) return;
 
-  // AD 3 — after 2nd paragraph
-  const adAfterP2 = document.createElement('div');
-  adAfterP2.innerHTML = adSlot('Advertisement');
-  if (paragraphs[1] && paragraphs[1].parentNode) {
-    paragraphs[1].insertAdjacentElement('afterend', adAfterP2.firstElementChild);
+  // AD 3 — after 1st paragraph (user reads first para, then sees ad)
+  const adAfterP1 = document.createElement('div');
+  adAfterP1.innerHTML = adSlot('Advertisement');
+  if (paragraphs[0] && paragraphs[0].parentNode) {
+    paragraphs[0].insertAdjacentElement('afterend', adAfterP1.firstElementChild);
   }
 
-  // AD 4 — middle of article
+  // AD 4 — middle of article (only if long enough)
   const midIndex = Math.floor(paragraphs.length / 2);
   if (midIndex > 1) {
     const adMid = document.createElement('div');
