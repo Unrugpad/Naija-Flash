@@ -13,9 +13,9 @@
 <meta name="twitter:site" content="@Naija_flash">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
-:root{--green:#00A651;--green-dark:#007A3D;--green-light:#E6F7EE;--red:#EF233C;--black:#0A0A0A;--dark:#111827;--mid:#374151;--muted:#6B7280;--border:#E5E7EB;--bg:#F9FAFB;--white:#FFFFFF;--card-shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);--card-hover:0 8px 24px rgba(0,0,0,0.12);--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;}
+:root{--green:#00A651;--green-dark:#007A3D;--green-light:#E6F7EE;--red:#EF233C;--black:#0A0A0A;--dark:#111827;--mid:#374151;--muted:#6B7280;--border:#E5E7EB;--bg:#F9FAFB;--white:#FFFFFF;--card-shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);--card-hover:0 8px 24px rgba(0,0,0,0.12);--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--fh:'DM Serif Display',serif;}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:var(--fb);background:var(--bg);color:var(--dark);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased;}
@@ -229,6 +229,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .art-wrap{max-width:800px;}
 .a-cat{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:10px;display:block;}
 .a-cat.red{color:var(--red);}
+#artTitle{font-family:var(--fh);font-size:32px;font-weight:400;line-height:1.2;letter-spacing:-0.3px;color:var(--black);margin-bottom:14px;}
 .art-header h1{font-size:28px;font-weight:800;line-height:1.2;color:var(--dark);margin-bottom:12px;}
 .art-byline{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:20px;}
 .art-img{width:100%;height:400px;object-fit:cover;border-radius:12px;margin-bottom:24px;background:var(--border);}
@@ -275,6 +276,8 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
   .article-grid{grid-template-columns:repeat(2,1fr);}
   .two-col,.art-2col{grid-template-columns:1fr;}
   .sidebar{display:none;}
+  /* Show Jumia ad inline on mobile since sidebar is hidden */
+  .mobile-ad-inline{display:block!important;}
   .football-grid{grid-template-columns:repeat(2,1fr);}
   .ft{grid-template-columns:1fr 1fr;gap:28px;}
   .fbrand{grid-column:1/3;}
@@ -284,6 +287,7 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
   .menu-btn{display:flex;}
   .ad-direct-inner,.ad-football-inner,.ad-pf-inner{flex-direction:column;text-align:center;}
   .art-img{height:220px;}
+  #artTitle{font-size:26px;}
   .art-header h1{font-size:22px;}
   .cg{grid-template-columns:1fr;}
   .sp{padding:24px 16px;}
@@ -303,23 +307,8 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
 <div id="siteNav">
 <div class="ticker-bar">
   <div class="ticker-label">Breaking</div>
-  <div class="ticker-track">
-    <span>Dollar to Naira black market rate hits ₦1,640 today</span>
-    <span>JAMB releases 2025 UTME results — check portal now</span>
-    <span>Super Eagles land in Abuja ahead of AFCON qualifiers</span>
-    <span>CBN announces new policy on foreign exchange transactions</span>
-    <span>Arsenal 3-1 Chelsea — Saka scores brace in North London Derby</span>
-    <span>Davido's new album breaks Nigerian streaming records</span>
-    <span>Bitcoin surges — BTC/NGN rate update inside</span>
-    <span>WAEC 2025 timetable released — full schedule available</span>
-    <span>Dollar to Naira black market rate hits ₦1,640 today</span>
-    <span>JAMB releases 2025 UTME results — check portal now</span>
-    <span>Super Eagles land in Abuja ahead of AFCON qualifiers</span>
-    <span>CBN announces new policy on foreign exchange transactions</span>
-    <span>Arsenal 3-1 Chelsea — Saka scores brace in North London Derby</span>
-    <span>Davido's new album breaks Nigerian streaming records</span>
-    <span>Bitcoin surges — BTC/NGN rate update inside</span>
-    <span>WAEC 2025 timetable released — full schedule available</span>
+  <div class="ticker-track" id="tickerTrack">
+    <span>Loading latest news...</span>
   </div>
 </div>
 <nav class="navbar">
@@ -358,17 +347,6 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
     <a onclick="showPage('privacy')">Privacy Policy</a>
   </div>
 </nav>
-<!-- AD SLOT 1 DIRECT BRANDED -->
-<div class="ad-direct">
-  <span class="ad-lbl">Sponsored</span>
-  <div class="ad-direct-inner">
-    <div class="ad-direct-text">
-      <h4>Convert Crypto to Naira Instantly — Best Rates Guaranteed</h4>
-      <p>UnrugX Exchange · USDT, BTC, ETH · Instant bank transfer · No hidden fees</p>
-    </div>
-    <a href="https://unrugx.com" target="_blank" class="ad-direct-btn">Start Now →</a>
-  </div>
-</div>
 </div>
 
 <!-- PAGE: HOME -->
@@ -384,6 +362,12 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
   <!-- LATEST -->
   <section class="sb fi-anim">
     <div class="section-header"><h2><span class="dot"></span> Latest Stories</h2><span class="see-all">See All →</span></div>
+    <!-- AD SLOT 3 IN-FEED (also injected dynamically every 3 articles) -->
+    <div class="ad-net" style="margin-bottom:16px;grid-column:1/-1">
+      <span class="ad-lbl ad-lbl-dk">Ad</span>
+      <!-- PASTE IN-FEED AD SCRIPT HERE (SLOT 3) -->
+      <span class="ad-net-ph">Advertisement</span>
+    </div>
     <div class="article-grid" id="latestGrid">
     </div>
   </section>
@@ -397,12 +381,17 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
       </div>
     </div>
     <aside class="sidebar">
-      <div class="sw rate-widget"><div class="wt">💵 Dollar Rate Today</div><div class="rate-main"><div class="rate-val">₦1,640</div><div class="rate-chg">+₦12</div></div><p class="rate-sub">Black Market · Updated 30 mins ago</p><div class="rate-grid"><div class="ri"><div class="ri-label">CBN Rate</div><div class="ri-val">₦1,581</div></div><div class="ri"><div class="ri-label">USDT/₦</div><div class="ri-val">₦1,635</div></div><div class="ri"><div class="ri-label">GBP/₦</div><div class="ri-val">₦2,080</div></div><div class="ri"><div class="ri-label">EUR/₦</div><div class="ri-val">₦1,760</div></div></div></div>
-      <div class="sw"><div class="wt red">⚽ Latest Scores</div><div class="score-card"><div class="score-lg">Premier League · FT</div><div class="score-teams"><span class="score-team">Arsenal</span><span class="score-res">3 – 1</span><span class="score-team">Chelsea</span></div></div><div class="score-card"><div class="score-lg">La Liga · FT</div><div class="score-teams"><span class="score-team">Barcelona</span><span class="score-res">4 – 0</span><span class="score-team">Real Madrid</span></div></div><div class="score-card"><div class="score-lg">UCL · FT</div><div class="score-teams"><span class="score-team">Man City</span><span class="score-res">2 – 2</span><span class="score-team">PSG</span></div></div></div>
       <!-- AD SLOT 4 SIDEBAR -->
       <div class="ad-sb"><span class="ad-lbl">Sponsored</span><!-- PASTE ADSTERRA SIDEBAR SCRIPT HERE --><div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery on orders above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div></div>
-      <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap"><span class="tag">Dollar Rate</span><span class="tag">JAMB 2025</span><span class="tag">Super Eagles</span><span class="tag">Davido</span><span class="tag">iPhone 16</span><span class="tag">Crypto Nigeria</span><span class="tag">WAEC</span><span class="tag">Dangote</span><span class="tag">Afrobeats</span><span class="tag">Premier League</span><span class="tag">Scholarship 2025</span><span class="tag">Osimhen</span></div></div>
+      <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap" id="hotTopics"><span class="tag">Loading...</span></div></div>
     </aside>
+  </div>
+
+  <!-- MOBILE-ONLY: Jumia ad inline (sidebar hidden on mobile) -->
+  <div class="mobile-ad-inline" style="margin-bottom:24px;">
+    <div class="ad-sb"><span class="ad-lbl">Sponsored</span><!-- PASTE MOBILE AD SCRIPT HERE -->
+      <div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery on orders above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div>
+    </div>
   </div>
 
   <!-- AD SLOT 5 FOOTBALL BANNER -->
@@ -430,39 +419,107 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
 <!-- PAGE: CATEGORY -->
 <div id="page-category" class="page">
   <div class="cat-ph"><div class="cat-ph-in"><h1 id="catTitle">Finance & Money</h1><p id="catDesc">Latest finance and money news</p></div></div>
+  <!-- CAT AD TOP — banner below category header -->
+  <div class="ad-net" style="margin:0 0 0 0;border-radius:0;">
+    <span class="ad-lbl ad-lbl-dk">Ad</span>
+    <!-- PASTE AD NETWORK SCRIPT HERE (CATEGORY TOP) -->
+    <span class="ad-net-ph">Advertisement</span>
+  </div>
   <main class="main-wrap">
     <div class="two-col">
       <div><div class="article-grid" id="catGrid"></div></div>
       <aside class="sidebar">
-        <div class="sw rate-widget"><div class="wt">💵 Dollar Rate Today</div><div class="rate-main"><div class="rate-val">₦1,640</div><div class="rate-chg">+₦12</div></div><p class="rate-sub">Black Market · Updated 30 mins ago</p><div class="rate-grid"><div class="ri"><div class="ri-label">CBN Rate</div><div class="ri-val">₦1,581</div></div><div class="ri"><div class="ri-label">USDT/₦</div><div class="ri-val">₦1,635</div></div><div class="ri"><div class="ri-label">GBP/₦</div><div class="ri-val">₦2,080</div></div><div class="ri"><div class="ri-label">EUR/₦</div><div class="ri-val">₦1,760</div></div></div></div>
-        <div class="ad-sb"><span class="ad-lbl">Sponsored</span><div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div></div>
-        <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap"><span class="tag">Dollar Rate</span><span class="tag">JAMB 2025</span><span class="tag">Super Eagles</span><span class="tag">Davido</span><span class="tag">iPhone 16</span><span class="tag">Crypto Nigeria</span><span class="tag">WAEC</span></div></div>
+        <div class="ad-sb"><span class="ad-lbl">Sponsored</span><!-- PASTE SIDEBAR AD SCRIPT HERE --><div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div></div>
+        <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap" id="hotTopics"><span class="tag">Loading...</span></div></div>
       </aside>
     </div>
   </main>
 </div>
 
-<!-- PAGE: ARTICLE -->
-<div id="page-article" class="page">
+<!-- PAGE: ARTICLE --><div id="page-article" class="page">
   <div class="art-2col">
     <div class="art-wrap">
       <button class="back-btn" onclick="goBack()">← Back</button>
+
+      <!-- AD 1: UnrugX — your own, always live, first thing reader sees -->
+      <div class="ad-direct" style="border-radius:12px;margin-bottom:20px;">
+        <span class="ad-lbl">Sponsored</span>
+        <div class="ad-direct-inner">
+          <div class="ad-direct-text">
+            <h4>Convert Crypto to Naira Instantly</h4>
+            <p>UnrugX Exchange · USDT, BTC, ETH · Best Rates · No hidden fees</p>
+          </div>
+          <a href="https://unrugx.com" target="_blank" class="ad-direct-btn">Start Now →</a>
+        </div>
+      </div>
+
+      <!-- ARTICLE TITLE — after your ad -->
       <div class="art-header">
         <span class="a-cat" id="artCat">Entertainment</span>
         <h1 id="artTitle"></h1>
         <div class="art-byline"><span>✍️ NaijaFlash Desk</span><span id="artTime"></span><span id="artRead"></span></div>
       </div>
+
+      <!-- ARTICLE IMAGE -->
       <img id="artImg" class="art-img" src="" alt="">
-      <div class="ad-net" style="margin-bottom:24px;"><span class="ad-lbl ad-lbl-dk">Ad</span><!-- PASTE ADSTERRA SCRIPT HERE --><span class="ad-net-ph">Advertisement</span></div>
+
+      <!-- AD 2: Network slot — between image and body -->
+      <div class="ad-net" style="margin:16px 0;">
+        <span class="ad-lbl ad-lbl-dk">Ad</span>
+        <!-- PASTE AD NETWORK SCRIPT HERE (SLOT IMG) -->
+        <span class="ad-net-ph">Advertisement</span>
+      </div>
+
+      <!-- AD 3: Network slot — before body starts -->
+      <div class="ad-net" style="margin-bottom:24px;">
+        <span class="ad-lbl ad-lbl-dk">Ad</span>
+        <!-- PASTE AD NETWORK SCRIPT HERE (SLOT A) -->
+        <span class="ad-net-ph">Advertisement</span>
+      </div>
+
+      <!-- ARTICLE BODY -->
       <div class="art-body" id="artBody"></div>
-      <div class="ad-net" style="margin:28px 0;"><span class="ad-lbl ad-lbl-dk">Ad</span><!-- PASTE ADSTERRA SCRIPT HERE --><span class="ad-net-ph">Advertisement</span></div>
-      <div style="margin-top:32px;"><div class="section-header"><h2><span class="dot"></span> Related Articles</h2></div><div class="article-grid" style="grid-template-columns:repeat(2,1fr);" id="relGrid"></div></div>
-      <div class="ad-net" style="margin-top:28px;"><span class="ad-lbl ad-lbl-dk">Ad</span><!-- PASTE ADSTERRA SCRIPT HERE --><span class="ad-net-ph">Advertisement</span></div>
+
+      <!-- AD 5: Network slot — after body -->
+      <div class="ad-net" style="margin:28px 0;">
+        <span class="ad-lbl ad-lbl-dk">Ad</span>
+        <!-- PASTE AD NETWORK SCRIPT HERE (SLOT B) -->
+        <span class="ad-net-ph">Advertisement</span>
+      </div>
+
+      <!-- MOBILE-ONLY: Sidebar Jumia ad inline -->
+      <div class="mobile-ad-inline" style="margin-bottom:24px;">
+        <div class="ad-sb"><span class="ad-lbl">Sponsored</span><!-- PASTE MOBILE AD SCRIPT HERE -->
+          <div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div>
+        </div>
+      </div>
+
+      <!-- RELATED ARTICLES -->
+      <div style="margin-top:32px;">
+        <div class="section-header"><h2><span class="dot"></span> Related Articles</h2></div>
+        <div class="article-grid" style="grid-template-columns:repeat(2,1fr);" id="relGrid"></div>
+      </div>
+
+      <!-- AD 6: Network slot — after related, always visible -->
+      <div class="ad-net" style="margin-top:28px;">
+        <span class="ad-lbl ad-lbl-dk">Ad</span>
+        <!-- PASTE AD NETWORK SCRIPT HERE (SLOT D) -->
+        <span class="ad-net-ph">Advertisement</span>
+      </div>
     </div>
+
     <aside class="sidebar" style="display:flex;">
-      <div class="sw rate-widget"><div class="wt">💵 Dollar Rate Today</div><div class="rate-main"><div class="rate-val">₦1,640</div><div class="rate-chg">+₦12</div></div><p class="rate-sub">Black Market · Updated 30 mins ago</p><div class="rate-grid"><div class="ri"><div class="ri-label">CBN Rate</div><div class="ri-val">₦1,581</div></div><div class="ri"><div class="ri-label">USDT/₦</div><div class="ri-val">₦1,635</div></div><div class="ri"><div class="ri-label">GBP/₦</div><div class="ri-val">₦2,080</div></div><div class="ri"><div class="ri-label">EUR/₦</div><div class="ri-val">₦1,760</div></div></div></div>
-      <div class="ad-sb"><span class="ad-lbl">Sponsored</span><div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div></div>
-      <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap"><span class="tag">Dollar Rate</span><span class="tag">JAMB 2025</span><span class="tag">Super Eagles</span><span class="tag">Davido</span><span class="tag">iPhone 16</span><span class="tag">Crypto Nigeria</span><span class="tag">WAEC</span></div></div>
+      <div class="ad-sb">
+        <span class="ad-lbl">Sponsored</span>
+        <!-- PASTE SIDEBAR AD SCRIPT HERE -->
+        <div class="ad-sb-inner">
+          <div class="s-icon">📱</div>
+          <h4>Jumia Flash Sale — Up To 60% Off</h4>
+          <p>Phones, gadgets & more. Free delivery above ₦5,000.</p>
+          <a href="#" class="ad-sb-btn">Shop Now →</a>
+        </div>
+      </div>
+      <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap" id="hotTopicsArticle"><span class="tag">Loading...</span></div></div>
     </aside>
   </div>
 </div>
@@ -675,7 +732,6 @@ const CONFIG = {
     facebook:  'https://facebook.com/naijaflashng',
     whatsapp:  'https://whatsapp.com/channel/0029Vb8BrSmKGGGM4JLGHp1R',
     telegram:  'https://t.me/unrugpadofficial',
-    instagram: '',  // Add when ready
   },
 
   // Contact
@@ -874,6 +930,8 @@ function renderLatest(articles) {
   const grid = document.getElementById('latestGrid');
   if (!grid) return;
   grid.innerHTML = articles.slice(0, 8).map(a => articleCard(a)).join('');
+  // Inject ads every 3 articles
+  injectInFeedAds('latestGrid');
 }
 
 async function renderTrending(articles) {
@@ -903,10 +961,16 @@ async function renderTrending(articles) {
 async function loadFootballSection() {
   const data = await apiGet('/api/articles?category=football&limit=3');
   const grid = document.getElementById('footballGrid');
-  if (!grid || !data || !data.articles) return;
-  data.articles.forEach(a => { articleCache[a.slug] = a; });
-  if (data.articles.length === 0) { grid.closest('.sb').style.display='none'; return; }
+  if (!grid) return;
 
+  // Hide entire football section if no articles
+  const section = grid.closest('.football-section') || grid.closest('section');
+  if (!data || !data.articles || data.articles.length === 0) {
+    if (section) section.style.display = 'none';
+    return;
+  }
+
+  data.articles.forEach(a => { articleCache[a.slug] = a; });
   grid.innerHTML = data.articles.map((a, i) => {
     const img = a.image_url || 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80';
     if (i === 0) {
@@ -929,9 +993,13 @@ async function loadFootballSection() {
 async function loadFinanceSection() {
   const data = await apiGet('/api/articles?category=finance&limit=4');
   const grid = document.getElementById('financeGrid');
-  if (!grid || !data || !data.articles) return;
+  if (!grid) return;
+  const section = grid.closest('section');
+  if (!data || !data.articles || data.articles.length === 0) {
+    if (section) section.style.display = 'none';
+    return;
+  }
   data.articles.forEach(a => { articleCache[a.slug] = a; });
-  if (data.articles.length === 0) { grid.closest('.sb').style.display='none'; return; }
   grid.innerHTML = data.articles.map(a => articleCard(a)).join('');
 }
 
@@ -976,6 +1044,8 @@ async function showCat(cat) {
   data.articles.forEach(a => { articleCache[a.slug] = a; });
   currentCatArticles = data.articles;
   grid.innerHTML = data.articles.map(a => articleCard(a)).join('');
+  // Inject ads every 4 articles in category grid
+  injectInFeedAds('catGrid', 4);
 }
 
 // ══════════════════════════════════════════════
@@ -1020,6 +1090,9 @@ async function showArticle(slug) {
   document.getElementById('artImg').src = img;
   document.getElementById('artImg').alt = a.title;
   document.getElementById('artBody').innerHTML = a.body || a.excerpt || '';
+
+  // Inject ads inside the article body
+  injectInArticleAds('artBody');
 
   // Related articles — fetch same category
   const relData = await apiGet('/api/articles?category=' + cat + '&limit=4');
@@ -1068,11 +1141,121 @@ function renderHomeFallback() {
 }
 
 // ══════════════════════════════════════════════
-// INIT
+// HOT TOPICS — dynamic from published articles
 // ══════════════════════════════════════════════
+async function loadHotTopics() {
+  const data = await apiGet('/api/articles?limit=20');
+  const containers = document.querySelectorAll('#hotTopics, #hotTopicsArticle');
+  if (!containers.length || !data || !data.articles) return;
+
+  // Extract unique categories + key words from titles
+  const topics = new Set();
+  data.articles.forEach(a => {
+    // Add category
+    if (a.category) topics.add(catLabel(a.category).replace('⚽ ', ''));
+    // Extract key noun from title (first 2 meaningful words)
+    const words = a.title.split(' ').filter(w => w.length > 4 && !/^(with|from|that|this|have|will|been|were|they|their|about|after|before|during|nigerian|nigeria)$/i.test(w));
+    if (words[0]) topics.add(words[0].replace(/[^a-zA-Z0-9]/g, ''));
+  });
+
+  const topicArr = [...topics].slice(0, 10);
+  const html = topicArr.map(t =>
+    `<span class="tag" onclick="doSearch('${t}')" style="cursor:pointer">${t}</span>`
+  ).join('');
+
+  containers.forEach(el => { el.innerHTML = html; });
+}
+
+// ══════════════════════════════════════════════
+// AD SLOT HTML — reusable ad unit
+// ══════════════════════════════════════════════
+function adSlot(label = 'Advertisement') {
+  return `<div class="ad-net" style="margin:24px 0">
+    <span class="ad-lbl ad-lbl-dk">Ad</span>
+    <!-- PASTE AD NETWORK SCRIPT HERE -->
+    <span class="ad-net-ph">${label}</span>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════
+// IN-FEED ADS — inject every 3 articles
+// ══════════════════════════════════════════════
+function injectInFeedAds(gridId, interval = 3) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  const cards = [...grid.children];
+  if (cards.length < interval) return;
+
+  let inserted = 0;
+  for (let i = interval - 1; i < cards.length; i += interval + 1) {
+    const adEl = document.createElement('div');
+    adEl.innerHTML = adSlot('Advertisement');
+    adEl.firstElementChild.style.gridColumn = '1 / -1';
+    const target = grid.children[i + 1];
+    if (target) {
+      grid.insertBefore(adEl.firstElementChild, target);
+      inserted++;
+    }
+  }
+}
+
+// ══════════════════════════════════════════════
+// IN-ARTICLE ADS — inject inside article body (ads 3 and 4)
+// Ad 1 = UnrugX (hardcoded above title)
+// Ad 2 = Network slot (hardcoded before body)
+// Ad 3 = Dynamic after 2nd paragraph
+// Ad 4 = Dynamic middle of article
+// Ad 5 = Network slot (hardcoded after body)
+// Ad 6 = Network slot (hardcoded after related)
+// ══════════════════════════════════════════════
+function injectInArticleAds(bodyId) {
+  const body = document.getElementById(bodyId);
+  if (!body) return;
+
+  const paragraphs = body.querySelectorAll('p, h2');
+  if (paragraphs.length < 2) return;
+
+  // AD 3 — after 2nd paragraph
+  const adAfterP2 = document.createElement('div');
+  adAfterP2.innerHTML = adSlot('Advertisement');
+  if (paragraphs[1] && paragraphs[1].parentNode) {
+    paragraphs[1].insertAdjacentElement('afterend', adAfterP2.firstElementChild);
+  }
+
+  // AD 4 — middle of article
+  const midIndex = Math.floor(paragraphs.length / 2);
+  if (midIndex > 1) {
+    const adMid = document.createElement('div');
+    adMid.innerHTML = adSlot('Advertisement');
+    if (paragraphs[midIndex] && paragraphs[midIndex].parentNode) {
+      paragraphs[midIndex].insertAdjacentElement('afterend', adMid.firstElementChild);
+    }
+  }
+}
+async function loadTicker() {
+  const data = await apiGet('/api/articles?limit=10');
+  const track = document.getElementById('tickerTrack');
+  if (!track) return;
+
+  if (!data || !data.articles || data.articles.length === 0) {
+    track.innerHTML = '<span>Welcome to NaijaFlash — Nigeria\'s Pulse</span>';
+    return;
+  }
+
+  // Build ticker items from real article titles (doubled for seamless loop)
+  const items = data.articles.map(a => `<span onclick="showArticle('${a.slug}')" style="cursor:pointer">${a.title}</span>`);
+  const doubled = [...items, ...items]; // Double for seamless CSS loop
+  track.innerHTML = doubled.join('');
+}
 document.addEventListener('DOMContentLoaded', function() {
   // Load home articles from API
   loadHome();
+
+  // Load ticker with real article titles
+  loadTicker();
+
+  // Load dynamic hot topics
+  loadHotTopics();
 
   // Mobile menu toggle
   document.getElementById('menuBtn').addEventListener('click', function() {
