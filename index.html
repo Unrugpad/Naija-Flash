@@ -718,11 +718,18 @@ const CAT_META = {
 // ---
 async function apiGet(path) {
   try {
-    const res = await fetch(CONFIG.API + path);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const res = await fetch(CONFIG.API + path, { signal: controller.signal });
+    clearTimeout(timeout);
     if (!res.ok) throw new Error('API error ' + res.status);
     return await res.json();
   } catch (e) {
-    console.error('API error:', e);
+    if (e.name === 'AbortError') {
+      console.error('API timeout:', path);
+    } else {
+      console.error('API error:', e);
+    }
     return null;
   }
 }
@@ -1112,7 +1119,7 @@ async function showArticle(slug) {
 
   // Show loading state
   document.getElementById('artTitle').textContent = 'Loading...';
-  document.getElementById('artBody').innerHTML = '<p style="color:var(--muted)">Fetching article...</p>';
+  document.getElementById('artBody').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0">⏳ Loading article...</p>';
 
   // Always fetch full article from slug endpoint to get complete body
   const data = await apiGet('/api/articles/' + slug);
@@ -1120,8 +1127,8 @@ async function showArticle(slug) {
   // Reload dynamic ad slot for this article view
   loadDynamicAd();
   if (!data) {
-    document.getElementById('artTitle').textContent = 'Article not found';
-    document.getElementById('artBody').innerHTML = '<p>This article could not be loaded.</p>';
+    document.getElementById('artTitle').textContent = 'Failed to load';
+    document.getElementById('artBody').innerHTML = '<p style="text-align:center;padding:40px 0">⚠️ Could not load article. Please check your connection and try again.<br><br><button onclick="showArticle(\'' + slug + '\')" style="background:var(--green);color:white;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:14px;">Try Again</button></p>';
     return;
   }
   const a = data;
