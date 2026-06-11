@@ -62,7 +62,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 /* AD SLOT 1 DIRECT */
 .ad-direct{background:var(--black);border-bottom:3px solid var(--green);position:relative;}
 .ad-direct-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;gap:16px;max-width:1200px;margin:0 auto;}
-.ad-direct-text h4{font-family:var(--fd);font-size:15px;font-weight:800;color:white;margin-bottom:3px;}
+.ad-direct-text h4{font-family:var(--fh);font-size:20px;font-weight:400;color:white;margin-bottom:3px;line-height:1.2;}
 .ad-direct-text p{font-size:12.5px;color:rgba(255,255,255,0.65);}
 .ad-direct-btn{background:var(--green);color:white;font-family:var(--fd);font-size:12px;font-weight:700;padding:10px 22px;border-radius:8px;white-space:nowrap;flex-shrink:0;display:inline-block;}
 .ad-lbl{position:absolute;top:7px;right:10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.1);padding:2px 7px;border-radius:4px;pointer-events:none;}
@@ -276,7 +276,6 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
   .article-grid{grid-template-columns:repeat(2,1fr);}
   .two-col,.art-2col{grid-template-columns:1fr;}
   .sidebar{display:none;}
-  /* Show Jumia ad inline on mobile since sidebar is hidden */
   .mobile-ad-inline{display:block!important;}
   .football-grid{grid-template-columns:repeat(2,1fr);}
   .ft{grid-template-columns:1fr 1fr;gap:28px;}
@@ -382,21 +381,9 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
     </div>
     <aside class="sidebar">
       <!-- AD SLOT 4 SIDEBAR -->
-      <div class="ad-sb"><span class="ad-lbl">Sponsored</span><!-- PASTE ADSTERRA SIDEBAR SCRIPT HERE --><div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery on orders above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div></div>
       <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap" id="hotTopics"><span class="tag">Loading...</span></div></div>
     </aside>
   </div>
-
-  <!-- MOBILE-ONLY: Jumia ad inline (sidebar hidden on mobile) -->
-  <div class="mobile-ad-inline" style="margin-bottom:24px;">
-    <div class="ad-sb"><span class="ad-lbl">Sponsored</span><!-- PASTE MOBILE AD SCRIPT HERE -->
-      <div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery on orders above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div>
-    </div>
-  </div>
-
-  <!-- AD SLOT 5 FOOTBALL BANNER -->
-  <div class="ad-football fi-anim"><span class="ad-lbl">Sponsored</span><!-- PASTE ADSTERRA SCRIPT HERE --><div class="ad-football-inner"><div class="ad-football-text"><h4>SportyBet — Bet On Live Matches Now</h4><p>100% welcome bonus · Instant cash out · 500+ markets daily</p></div><a href="#" class="ad-football-btn">Bet Now →</a></div></div>
-
   <!-- FOOTBALL SECTION -->
   <section class="football-section fi-anim">
     <div class="section-header"><h2><span class="dot red"></span> Football</h2><span class="see-all red" onclick="showCat('football')">More Football →</span></div>
@@ -412,7 +399,7 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
   </section>
 
   <!-- AD SLOT 6 PRE-FOOTER -->
-  <div class="ad-pf fi-anim"><span class="ad-lbl ad-lbl-dk">Sponsored</span><!-- PASTE ADSTERRA SCRIPT HERE --><div class="ad-pf-inner"><div class="ad-pf-text"><h4>Sell Your Phone Online — Get Paid In Minutes</h4><p>Tokunbo & UK-used phones wanted. Instant bank transfer. Free pickup in Lagos & Abuja.</p></div><a href="#" class="ad-pf-btn">Get Instant Quote →</a></div></div>
+<a href="#" class="ad-pf-btn">Get Instant Quote →</a></div></div>
 </main>
 </div>
 
@@ -429,8 +416,7 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
     <div class="two-col">
       <div><div class="article-grid" id="catGrid"></div></div>
       <aside class="sidebar">
-        <div class="ad-sb"><span class="ad-lbl">Sponsored</span><!-- PASTE SIDEBAR AD SCRIPT HERE --><div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div></div>
-        <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap" id="hotTopics"><span class="tag">Loading...</span></div></div>
+      <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap" id="hotTopics"><span class="tag">Loading...</span></div></div>
       </aside>
     </div>
   </main>
@@ -441,17 +427,8 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
     <div class="art-wrap">
       <button class="back-btn" onclick="goBack()">← Back</button>
 
-      <!-- AD 1: UnrugX — your own, always live, first thing reader sees -->
-      <div class="ad-direct" style="border-radius:12px;margin-bottom:20px;">
-        <span class="ad-lbl">Sponsored</span>
-        <div class="ad-direct-inner">
-          <div class="ad-direct-text">
-            <h4>Convert Crypto to Naira Instantly</h4>
-            <p>UnrugX Exchange · USDT, BTC, ETH · Best Rates · No hidden fees</p>
-          </div>
-          <a href="https://unrugx.com" target="_blank" class="ad-direct-btn">Start Now →</a>
-        </div>
-      </div>
+      <!-- DYNAMIC AD SLOT — controlled via /setad command in Telegram -->
+      <div id="dynamicAdSlot" style="display:none;margin-bottom:20px;"></div>
 
       <!-- ARTICLE TITLE — after your ad -->
       <div class="art-header">
@@ -479,20 +456,6 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
         <!-- PASTE AD NETWORK SCRIPT HERE (SLOT B) -->
         <span class="ad-net-ph">Advertisement</span>
       </div>
-
-      <!-- MOBILE-ONLY: Sidebar Jumia ad inline -->
-      <div class="mobile-ad-inline" style="margin-bottom:24px;">
-        <div class="ad-sb"><span class="ad-lbl">Sponsored</span><!-- PASTE MOBILE AD SCRIPT HERE -->
-          <div class="ad-sb-inner"><div class="s-icon">📱</div><h4>Jumia Flash Sale — Up To 60% Off</h4><p>Phones, gadgets & more. Free delivery above ₦5,000.</p><a href="#" class="ad-sb-btn">Shop Now →</a></div>
-        </div>
-      </div>
-
-      <!-- RELATED ARTICLES -->
-      <div style="margin-top:32px;">
-        <div class="section-header"><h2><span class="dot"></span> Related Articles</h2></div>
-        <div class="article-grid" style="grid-template-columns:repeat(2,1fr);" id="relGrid"></div>
-      </div>
-
       <!-- AD 6: Network slot — after related, always visible -->
       <div class="ad-net" style="margin-top:28px;">
         <span class="ad-lbl ad-lbl-dk">Ad</span>
@@ -502,16 +465,6 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
     </div>
 
     <aside class="sidebar" style="display:flex;">
-      <div class="ad-sb">
-        <span class="ad-lbl">Sponsored</span>
-        <!-- PASTE SIDEBAR AD SCRIPT HERE -->
-        <div class="ad-sb-inner">
-          <div class="s-icon">📱</div>
-          <h4>Jumia Flash Sale — Up To 60% Off</h4>
-          <p>Phones, gadgets & more. Free delivery above ₦5,000.</p>
-          <a href="#" class="ad-sb-btn">Shop Now →</a>
-        </div>
-      </div>
       <div class="sw"><div class="wt">🔥 Hot Topics</div><div class="tags-wrap" id="hotTopicsArticle"><span class="tag">Loading...</span></div></div>
     </aside>
   </div>
@@ -848,10 +801,14 @@ function showPage(id) {
   updateTabs(id);
   window.scrollTo(0, 0);
   closeMobileMenu();
+  // Update URL
+  if (id === 'home') history.pushState({page:'home'}, '', '/');
 }
 
 function goBack() {
-  showPage(prevPage === 'article' ? 'home' : prevPage);
+  const target = prevPage === 'article' ? 'home' : prevPage;
+  showPage(target);
+  if (target === 'home') history.pushState({page:'home'}, '', '/');
 }
 
 function updateTabs(id) {
@@ -1024,6 +981,9 @@ async function showCat(cat) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-category').classList.add('active');
 
+  // Update URL
+  history.pushState({page: 'category', cat: cat}, '', '/category/' + cat);
+
   // Update nav tab
   document.querySelectorAll('.cat-tab').forEach(t => {
     t.classList.remove('active');
@@ -1061,6 +1021,9 @@ async function showArticle(slug) {
   prevPage = document.querySelector('.page.active')?.id?.replace('page-', '') || 'home';
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-article').classList.add('active');
+
+  // Update URL so refresh works
+  history.pushState({page: 'article', slug: slug}, '', '/article/' + slug);
   window.scrollTo(0, 0);
 
   // Show loading state
@@ -1069,6 +1032,9 @@ async function showArticle(slug) {
 
   // Always fetch full article from slug endpoint to get complete body
   const data = await apiGet('/api/articles/' + slug);
+
+  // Reload dynamic ad slot for this article view
+  loadDynamicAd();
   if (!data) {
     document.getElementById('artTitle').textContent = 'Article not found';
     document.getElementById('artBody').innerHTML = '<p>This article could not be loaded.</p>';
@@ -1232,6 +1198,31 @@ function injectInArticleAds(bodyId) {
     }
   }
 }
+// ══════════════════════════════════════════════
+// DYNAMIC AD SLOT — controlled via /setad in Telegram
+// ══════════════════════════════════════════════
+async function loadDynamicAd() {
+  const slot = document.getElementById('dynamicAdSlot');
+  if (!slot) return;
+  const data = await apiGet('/api/ads/slot1');
+  if (!data || !data.active) {
+    slot.style.display = 'none';
+    return;
+  }
+  slot.style.display = 'block';
+  slot.innerHTML = `
+    <div class="ad-direct" style="border-radius:12px;">
+      <span class="ad-lbl">Sponsored</span>
+      <div class="ad-direct-inner">
+        <div class="ad-direct-text">
+          <h4>${data.headline || ''}</h4>
+          <p>${data.subtext || ''}</p>
+        </div>
+        ${data.link ? `<a href="${data.link}" target="_blank" rel="noopener" class="ad-direct-btn">${data.button_label || 'Learn More'}</a>` : ''}
+      </div>
+    </div>`;
+}
+
 async function loadTicker() {
   const data = await apiGet('/api/articles?limit=10');
   const track = document.getElementById('tickerTrack');
@@ -1248,14 +1239,49 @@ async function loadTicker() {
   track.innerHTML = doubled.join('');
 }
 document.addEventListener('DOMContentLoaded', function() {
-  // Load home articles from API
-  loadHome();
+  // ── URL ROUTER — handle refresh and direct links ──
+  const path = window.location.pathname;
+  if (path.startsWith('/article/')) {
+    const slug = path.replace('/article/', '');
+    if (slug) {
+      showArticle(slug);
+    } else {
+      loadHome();
+    }
+  } else if (path.startsWith('/category/')) {
+    const cat = path.replace('/category/', '');
+    if (cat) {
+      showCat(cat);
+    } else {
+      loadHome();
+    }
+  } else {
+    loadHome();
+  }
+
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', function(e) {
+    const state = e.state;
+    if (!state) { loadHome(); return; }
+    if (state.page === 'article' && state.slug) {
+      showArticle(state.slug);
+    } else if (state.page === 'category' && state.cat) {
+      showCat(state.cat);
+    } else {
+      loadHome();
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-home').classList.add('active');
+    }
+  });
 
   // Load ticker with real article titles
   loadTicker();
 
   // Load dynamic hot topics
   loadHotTopics();
+
+  // Load dynamic ad slot (controlled via /setad in Telegram)
+  loadDynamicAd();
 
   // Mobile menu toggle
   document.getElementById('menuBtn').addEventListener('click', function() {
