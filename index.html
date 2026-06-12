@@ -887,31 +887,32 @@ function closeMobileMenu() {
 // HOME PAGE -- Load from API
 // ---
 async function loadHome() {
-  // Run all API calls in parallel -- cuts load time by ~60%
-  const [mainData, footballData, financeData] = await Promise.all([
-    apiGet('/api/articles?limit=20'),
-    apiGet('/api/articles?category=football&limit=3'),
-    apiGet('/api/articles?category=finance&limit=4'),
-  ]);
+  // ONE API call instead of 3 -- cuts load time significantly
+  const data = await apiGet('/api/articles?limit=30');
 
-  if (!mainData || !mainData.articles || mainData.articles.length === 0) {
+  if (!data || !data.articles || data.articles.length === 0) {
     renderHomeFallback();
     return;
   }
 
-  homeArticles = mainData.articles;
-  mainData.articles.forEach(a => { articleCache[a.slug] = a; });
+  const all = data.articles;
+  all.forEach(a => { articleCache[a.slug] = a; });
+  homeArticles = all;
 
-  renderHero(mainData.articles);
-  renderLatest(mainData.articles);
-  renderTrending(mainData.articles);
+  // Split articles by category on the frontend -- no extra API calls needed
+  const footballArticles = all.filter(a => a.category === 'football').slice(0, 3);
+  const financeArticles = all.filter(a => a.category === 'finance').slice(0, 4);
+  const latestArticles = all.slice(0, 8);
+
+  renderHero(all);
+  renderLatest(latestArticles);
+  renderTrending(all);
 
   // Football section
   const footballGrid = document.getElementById('footballGrid');
   const footballSection = document.getElementById('section-football');
-  if (footballGrid && footballData && footballData.articles && footballData.articles.length > 0) {
-    footballData.articles.forEach(a => { articleCache[a.slug] = a; });
-    footballGrid.innerHTML = footballData.articles.map((a, i) => {
+  if (footballGrid && footballArticles.length > 0) {
+    footballGrid.innerHTML = footballArticles.map((a, i) => {
       const img = a.image_url || 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80';
       if (i === 0) {
         return `<div class="fc-main" onclick="showArticle('${a.slug}')">
@@ -935,12 +936,15 @@ async function loadHome() {
   // Finance section
   const financeGrid = document.getElementById('financeGrid');
   const financeSection = document.getElementById('section-finance');
-  if (financeGrid && financeData && financeData.articles && financeData.articles.length > 0) {
-    financeData.articles.forEach(a => { articleCache[a.slug] = a; });
-    financeGrid.innerHTML = financeData.articles.map(a => articleCard(a)).join('');
+  if (financeGrid && financeArticles.length > 0) {
+    financeGrid.innerHTML = financeArticles.map(a => articleCard(a)).join('');
   } else if (financeSection) {
     financeSection.style.display = 'none';
   }
+
+  // Load ticker and hot topics from cached data -- no extra API calls
+  loadTickerFromCache(all);
+  loadHotTopicsFromCache(all);
 }
 
 function renderHero(articles) {
@@ -1343,6 +1347,31 @@ async function loadDynamicAd() {
     </div>`;
 }
 
+// Load ticker from already-fetched articles -- no extra API call
+function loadTickerFromCache(articles) {
+  const track = document.getElementById('tickerTrack');
+  if (!track || !articles || articles.length === 0) return;
+  const items = articles.map(a => `<span onclick="showArticle('${a.slug}')" style="cursor:pointer">${a.title}</span>`);
+  const doubled = [...items, ...items];
+  track.innerHTML = doubled.join('');
+}
+
+// Load hot topics from already-fetched articles -- no extra API call
+function loadHotTopicsFromCache(articles) {
+  const containers = document.querySelectorAll('#hotTopics, #hotTopicsArticle');
+  if (!containers.length || !articles || articles.length === 0) return;
+  const topics = new Set();
+  articles.forEach(a => {
+    if (a.category) topics.add(catLabel(a.category).replace('-- ', ''));
+    const words = a.title.split(' ').filter(w => w.length > 4 && !/^(with|from|that|this|have|will|been|were|they|their|about|after|before|during|nigerian|nigeria)$/i.test(w));
+    if (words[0]) topics.add(words[0].replace(/[^a-zA-Z0-9]/g, ''));
+  });
+  const html = [...topics].slice(0, 10).map(t =>
+    `<span class="tag" onclick="doSearch('${t}')" style="cursor:pointer">${t}</span>`
+  ).join('');
+  containers.forEach(el => { el.innerHTML = html; });
+}
+
 async function loadTicker() {
   const data = await apiGet('/api/articles?limit=10');
   const track = document.getElementById('tickerTrack');
@@ -1393,12 +1422,6 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('page-home').classList.add('active');
     }
   });
-
-  // Load ticker with real article titles
-  loadTicker();
-
-  // Load dynamic hot topics
-  loadHotTopics();
 
   // Load dynamic ad slot (controlled via /setad in Telegram)
   loadDynamicAd();
