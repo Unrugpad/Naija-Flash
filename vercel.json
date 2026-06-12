@@ -1,7 +1,7 @@
 {
   "rewrites": [
-    { "source": "/sitemap.xml", "destination": "https://web-production-e8759.up.railway.app/sitemap.xml" },
-    { "source": "/robots.txt", "destination": "https://web-production-e8759.up.railway.app/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap.xml" },
+    { "source": "/robots.txt", "destination": "/api/robots.txt" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
