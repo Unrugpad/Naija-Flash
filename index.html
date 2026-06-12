@@ -5,12 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NaijaFlash — Nigeria's Pulse</title>
 <meta name="description" content="Nigeria's fastest-growing news and information platform. Entertainment, finance, tech, health, education, and football — in real Nigerian voice.">
-<meta name="keywords" content="Nigeria news, Naija, entertainment, football, dollar rate, JAMB, crypto Nigeria, Nollywood">
+<meta name="keywords" content="Nigeria news, Naija news, Nigerian entertainment, Super Eagles, CBN, JAMB, Nigerian football, Lagos news, Abuja news, crypto Nigeria, Nollywood">
+<meta name="author" content="NaijaFlash">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://naijaflashng.com">
 <meta property="og:title" content="NaijaFlash — Nigeria's Pulse">
-<meta property="og:description" content="Nigeria's fastest-growing news and information platform.">
+<meta property="og:description" content="Nigeria's fastest-growing news and information platform. Entertainment, finance, tech, health, education, and football — in real Nigerian voice.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://naijaflashng.com">
+<meta property="og:site_name" content="NaijaFlash">
+<meta property="og:locale" content="en_NG">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@Naija_flash">
+<meta name="twitter:title" content="NaijaFlash — Nigeria's Pulse">
+<meta name="twitter:description" content="Nigeria's fastest-growing news and information platform.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://web-production-e8759.up.railway.app">
@@ -1144,6 +1152,19 @@ async function showArticle(slug) {
   document.getElementById('artCat').className = 'a-cat' + (cr === 'red' ? ' red' : '');
   document.getElementById('artTime').textContent = timeAgo(a.published_at);
   document.getElementById('artRead').textContent = readTime(a.body);
+
+  // Update page title and meta for SEO
+  document.title = a.title + ' — NaijaFlash';
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', a.excerpt || a.title);
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', a.title);
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', a.excerpt || '');
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute('content', 'https://naijaflashng.com/article/' + slug);
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', 'https://naijaflashng.com/article/' + slug);
   document.getElementById('artImg').src = img;
   document.getElementById('artImg').alt = a.title;
   document.getElementById('artBody').innerHTML = a.body || a.excerpt || '';
