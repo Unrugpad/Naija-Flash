@@ -374,7 +374,7 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
 
   <!-- LATEST -->
   <section class="sb fi-anim" id="section-latest">
-    <div class="section-header"><h2><span class="dot"></span> Latest Stories</h2><span class="see-all">See All →</span></div>
+    <div class="section-header"><h2><span class="dot"></span> Latest Stories</h2><span class="see-all" onclick="showCat('news')">See All →</span></div>
     <!-- AD SLOT 3 IN-FEED (also injected dynamically every 3 articles) -->
     <div class="ad-net" style="margin-bottom:16px;grid-column:1/-1">
       <span class="ad-lbl ad-lbl-dk">Ad</span>
@@ -471,13 +471,20 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
       <!-- ARTICLE BODY — AD 3 injected after 1st paragraph dynamically -->
       <div class="art-body" id="artBody"></div>
 
-      <!-- AD 5: Network slot — after body -->
+      <!-- RELATED ARTICLES — content between ads -->
+      <div style="margin-top:32px;">
+        <div class="section-header"><h2><span class="dot"></span> Related Articles</h2></div>
+        <div class="article-grid" style="grid-template-columns:repeat(2,1fr);" id="relGrid"></div>
+      </div>
+
+      <!-- AD 5: Network slot — after related articles -->
       <div class="ad-net" style="margin:28px 0;">
         <span class="ad-lbl ad-lbl-dk">Ad</span>
         <!-- PASTE AD NETWORK SCRIPT HERE (SLOT B) -->
         <span class="ad-net-ph">Advertisement</span>
       </div>
-      <!-- AD 6: Network slot — after related, always visible -->
+
+      <!-- AD 6: Network slot — last position -->
       <div class="ad-net" style="margin-top:28px;">
         <span class="ad-lbl ad-lbl-dk">Ad</span>
         <!-- PASTE AD NETWORK SCRIPT HERE (SLOT D) -->
@@ -847,8 +854,8 @@ function scrollToSection(cat, tabEl) {
   if (tabEl) tabEl.classList.add('active');
   closeMobileMenu();
 
-  // Update URL
-  history.pushState({page: 'home', section: cat}, '', '/#' + cat);
+  // Update URL — use proper category URL
+  history.pushState({page: 'category', cat: cat}, '', '/category/' + cat);
 }
 
 function showPage(id) {
@@ -887,8 +894,8 @@ function closeMobileMenu() {
 // HOME PAGE -- Load from API
 // ---
 async function loadHome() {
-  // ONE API call instead of 3 -- cuts load time significantly
-  const data = await apiGet('/api/articles?limit=30');
+  // ONE API call -- fetch more articles to ensure all sections have content
+  const data = await apiGet('/api/articles?limit=50');
 
   if (!data || !data.articles || data.articles.length === 0) {
     renderHomeFallback();
@@ -899,7 +906,7 @@ async function loadHome() {
   all.forEach(a => { articleCache[a.slug] = a; });
   homeArticles = all;
 
-  // Split articles by category on the frontend -- no extra API calls needed
+  // Strictly filter by category -- no mixing
   const footballArticles = all.filter(a => a.category === 'football').slice(0, 3);
   const financeArticles = all.filter(a => a.category === 'finance').slice(0, 4);
   const latestArticles = all.slice(0, 8);
@@ -1125,8 +1132,10 @@ async function showArticle(slug) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-article').classList.add('active');
 
-  // Update URL so refresh works
-  history.pushState({page: 'article', slug: slug}, '', '/article/' + slug);
+  // Use cached category if available for immediate URL update
+  const cached = articleCache[slug];
+  const tempCat = (cached && cached.category) ? cached.category : 'news';
+  history.pushState({page: 'article', slug: slug, cat: tempCat}, '', '/category/' + tempCat + '/' + slug);
   window.scrollTo(0, 0);
 
   // Show loading state
@@ -1151,6 +1160,10 @@ async function showArticle(slug) {
   const lbl = catLabel(cat);
   const img = a.image_url || 'https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?w=900&q=80';
 
+  // Update URL with correct category now that we have the article
+  const correctCat = a.category || 'news';
+  history.replaceState({page: 'article', slug: slug, cat: correctCat}, '', '/category/' + correctCat + '/' + slug);
+
   document.getElementById('artTitle').textContent = a.title;
   document.getElementById('artCat').textContent = lbl;
   document.getElementById('artCat').className = 'a-cat' + (cr === 'red' ? ' red' : '');
@@ -1166,9 +1179,9 @@ async function showArticle(slug) {
   const ogDesc = document.querySelector('meta[property="og:description"]');
   if (ogDesc) ogDesc.setAttribute('content', a.excerpt || '');
   const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', 'https://naijaflashng.com/article/' + slug);
+  if (ogUrl) ogUrl.setAttribute('content', 'https://naijaflashng.com/category/' + correctCat + '/' + slug);
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', 'https://naijaflashng.com/article/' + slug);
+  if (canonical) canonical.setAttribute('href', 'https://naijaflashng.com/category/' + correctCat + '/' + slug);
   document.getElementById('artImg').src = img;
   document.getElementById('artImg').alt = a.title;
   document.getElementById('artBody').innerHTML = a.body || a.excerpt || '';
@@ -1390,20 +1403,22 @@ async function loadTicker() {
 document.addEventListener('DOMContentLoaded', function() {
   // -- URL ROUTER -- handle refresh and direct links --
   const path = window.location.pathname;
-  if (path.startsWith('/article/')) {
+  if (path.startsWith('/category/')) {
+    const parts = path.replace('/category/', '').split('/');
+    if (parts.length === 2 && parts[1]) {
+      // /category/{cat}/{slug} -- article URL
+      showArticle(parts[1]);
+    } else if (parts.length === 1 && parts[0]) {
+      // /category/{cat} -- category page
+      showCat(parts[0]);
+    } else {
+      loadHome();
+    }
+  } else if (path.startsWith('/article/')) {
+    // Legacy article URLs -- redirect to new format
     const slug = path.replace('/article/', '');
-    if (slug) {
-      showArticle(slug);
-    } else {
-      loadHome();
-    }
-  } else if (path.startsWith('/category/')) {
-    const cat = path.replace('/category/', '');
-    if (cat) {
-      showCat(cat);
-    } else {
-      loadHome();
-    }
+    if (slug) showArticle(slug);
+    else loadHome();
   } else {
     loadHome();
   }
@@ -1415,7 +1430,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (state.page === 'article' && state.slug) {
       showArticle(state.slug);
     } else if (state.page === 'category' && state.cat) {
-      showCat(state.cat);
+      // Check if it's a section scroll (finance/football) or category page
+      const section = document.getElementById('section-' + state.cat);
+      if (section && document.getElementById('page-home').classList.contains('active')) {
+        section.scrollIntoView({behavior: 'smooth', block: 'start'});
+      } else {
+        showCat(state.cat);
+      }
     } else {
       loadHome();
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
