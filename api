@@ -1,0 +1,65 @@
+const RAILWAY_API = 'https://web-production-e8759.up.railway.app';
+const BASE_URL = 'https://naijaflashng.com';
+
+export default async function handler(req, res) {
+  try {
+    // Fetch all published articles from Railway
+    const response = await fetch(`${RAILWAY_API}/api/articles?limit=1000`);
+    const data = await response.json();
+    const articles = data.articles || [];
+
+    const staticUrls = [
+      { loc: `${BASE_URL}/`, changefreq: 'hourly', priority: '1.0' },
+      { loc: `${BASE_URL}/category/news`, changefreq: 'daily', priority: '0.8' },
+      { loc: `${BASE_URL}/category/football`, changefreq: 'daily', priority: '0.8' },
+      { loc: `${BASE_URL}/category/entertainment`, changefreq: 'daily', priority: '0.8' },
+      { loc: `${BASE_URL}/category/finance`, changefreq: 'daily', priority: '0.8' },
+      { loc: `${BASE_URL}/category/tech`, changefreq: 'daily', priority: '0.8' },
+      { loc: `${BASE_URL}/category/health`, changefreq: 'daily', priority: '0.8' },
+      { loc: `${BASE_URL}/category/education`, changefreq: 'daily', priority: '0.8' },
+    ];
+
+    const articleUrls = articles.map(a => {
+      const lastmod = a.published_at
+        ? `\n    <lastmod>${new Date(a.published_at).toISOString().split('T')[0]}</lastmod>`
+        : '';
+      return `  <url>
+    <loc>${BASE_URL}/article/${a.slug}</loc>${lastmod}
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`;
+    });
+
+    const staticXml = staticUrls.map(u => `  <url>
+    <loc>${u.loc}</loc>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
+  </url>`).join('\n');
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${staticXml}
+${articleUrls.join('\n')}
+</urlset>`;
+
+    res.setHeader('Content-Type', 'application/xml');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.status(200).send(xml);
+
+  } catch (error) {
+    // Fallback sitemap with just static pages
+    const fallback = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${BASE_URL}/</loc><priority>1.0</priority></url>
+  <url><loc>${BASE_URL}/category/news</loc><priority>0.8</priority></url>
+  <url><loc>${BASE_URL}/category/football</loc><priority>0.8</priority></url>
+  <url><loc>${BASE_URL}/category/entertainment</loc><priority>0.8</priority></url>
+  <url><loc>${BASE_URL}/category/finance</loc><priority>0.8</priority></url>
+  <url><loc>${BASE_URL}/category/health</loc><priority>0.8</priority></url>
+  <url><loc>${BASE_URL}/category/tech</loc><priority>0.8</priority></url>
+  <url><loc>${BASE_URL}/category/education</loc><priority>0.8</priority></url>
+</urlset>`;
+    res.setHeader('Content-Type', 'application/xml');
+    res.status(200).send(fallback);
+  }
+}
