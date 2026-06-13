@@ -468,26 +468,48 @@ footer{background:var(--black);color:rgba(255,255,255,0.6);padding:48px 20px 24p
         <span class="ad-net-ph">Advertisement</span>
       </div>
 
-      <!-- ARTICLE BODY — AD 3 injected after 1st paragraph dynamically -->
+      <!-- ARTICLE BODY — dynamic ads injected inside -->
       <div class="art-body" id="artBody"></div>
 
-      <!-- RELATED ARTICLES — content between ads -->
+      <!-- RELATED ARTICLES -->
       <div style="margin-top:32px;">
         <div class="section-header"><h2><span class="dot"></span> Related Articles</h2></div>
         <div class="article-grid" style="grid-template-columns:repeat(2,1fr);" id="relGrid"></div>
       </div>
 
-      <!-- AD 5: Network slot — after related articles -->
+      <!-- AD 5: After related articles -->
       <div class="ad-net" style="margin:28px 0;">
         <span class="ad-lbl ad-lbl-dk">Ad</span>
         <!-- PASTE AD NETWORK SCRIPT HERE (SLOT B) -->
         <span class="ad-net-ph">Advertisement</span>
       </div>
 
-      <!-- AD 6: Network slot — last position -->
-      <div class="ad-net" style="margin-top:28px;">
+      <!-- CONTENT BETWEEN ADS — share + tags section -->
+      <div class="art-share" style="padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:8px 0;">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Share this article:</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a id="shareWhatsapp" href="#" target="_blank" style="background:#25D366;color:white;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:700;text-decoration:none;">WhatsApp</a>
+          <a id="shareTwitter" href="#" target="_blank" style="background:#1DA1F2;color:white;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:700;text-decoration:none;">Twitter/X</a>
+          <a id="shareFacebook" href="#" target="_blank" style="background:#1877F2;color:white;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:700;text-decoration:none;">Facebook</a>
+        </div>
+      </div>
+
+      <!-- AD 6: After share section -->
+      <div class="ad-net" style="margin:28px 0;">
         <span class="ad-lbl ad-lbl-dk">Ad</span>
         <!-- PASTE AD NETWORK SCRIPT HERE (SLOT D) -->
+        <span class="ad-net-ph">Advertisement</span>
+      </div>
+
+      <!-- CONTENT BETWEEN ADS — about NaijaFlash -->
+      <div style="background:var(--green-light);border-radius:12px;padding:16px;margin:8px 0;">
+        <p style="font-size:13px;color:var(--dark);margin:0;"><strong>Stay updated with NaijaFlash</strong> — Nigeria's fastest-growing news platform. Get the latest on entertainment, finance, tech, health, education and football.</p>
+      </div>
+
+      <!-- AD 7: Final ad slot -->
+      <div class="ad-net" style="margin:28px 0;">
+        <span class="ad-lbl ad-lbl-dk">Ad</span>
+        <!-- PASTE AD NETWORK SCRIPT HERE (SLOT E) -->
         <span class="ad-net-ph">Advertisement</span>
       </div>
     </div>
@@ -894,32 +916,35 @@ function closeMobileMenu() {
 // HOME PAGE -- Load from API
 // ---
 async function loadHome() {
-  // ONE API call -- fetch more articles to ensure all sections have content
-  const data = await apiGet('/api/articles?limit=50');
+  // Parallel API calls -- main articles + dedicated football + dedicated finance
+  const [mainData, footballData, financeData] = await Promise.all([
+    apiGet('/api/articles?limit=20'),
+    apiGet('/api/articles?category=football&limit=3'),
+    apiGet('/api/articles?category=finance&limit=4'),
+  ]);
 
-  if (!data || !data.articles || data.articles.length === 0) {
+  if (!mainData || !mainData.articles || mainData.articles.length === 0) {
     renderHomeFallback();
     return;
   }
 
-  const all = data.articles;
+  const all = mainData.articles;
   all.forEach(a => { articleCache[a.slug] = a; });
   homeArticles = all;
 
-  // Strictly filter by category -- no mixing
-  const footballArticles = all.filter(a => a.category === 'football').slice(0, 3);
-  const financeArticles = all.filter(a => a.category === 'finance').slice(0, 4);
   const latestArticles = all.slice(0, 8);
 
   renderHero(all);
   renderLatest(latestArticles);
   renderTrending(all);
 
-  // Football section
+  // Football section -- dedicated call, always correct articles
   const footballGrid = document.getElementById('footballGrid');
   const footballSection = document.getElementById('section-football');
-  if (footballGrid && footballArticles.length > 0) {
-    footballGrid.innerHTML = footballArticles.map((a, i) => {
+  const fArticles = footballData?.articles || [];
+  if (footballGrid && fArticles.length > 0) {
+    fArticles.forEach(a => { articleCache[a.slug] = a; });
+    footballGrid.innerHTML = fArticles.map((a, i) => {
       const img = a.image_url || 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80';
       if (i === 0) {
         return `<div class="fc-main" onclick="showArticle('${a.slug}')">
@@ -940,16 +965,18 @@ async function loadHome() {
     footballSection.style.display = 'none';
   }
 
-  // Finance section
+  // Finance section -- dedicated call, always correct articles
   const financeGrid = document.getElementById('financeGrid');
   const financeSection = document.getElementById('section-finance');
-  if (financeGrid && financeArticles.length > 0) {
-    financeGrid.innerHTML = financeArticles.map(a => articleCard(a)).join('');
+  const fnArticles = financeData?.articles || [];
+  if (financeGrid && fnArticles.length > 0) {
+    fnArticles.forEach(a => { articleCache[a.slug] = a; });
+    financeGrid.innerHTML = fnArticles.map(a => articleCard(a)).join('');
   } else if (financeSection) {
     financeSection.style.display = 'none';
   }
 
-  // Load ticker and hot topics from cached data -- no extra API calls
+  // Load ticker and hot topics from cached data
   loadTickerFromCache(all);
   loadHotTopicsFromCache(all);
 }
@@ -1170,7 +1197,15 @@ async function showArticle(slug) {
   document.getElementById('artTime').textContent = timeAgo(a.published_at);
   document.getElementById('artRead').textContent = readTime(a.body);
 
-  // Update page title and meta for SEO
+  // Update share links
+  const artUrl = encodeURIComponent('https://naijaflashng.com/category/' + correctCat + '/' + slug);
+  const artTitle = encodeURIComponent(a.title);
+  const wa = document.getElementById('shareWhatsapp');
+  const tw = document.getElementById('shareTwitter');
+  const fb = document.getElementById('shareFacebook');
+  if (wa) wa.href = `https://wa.me/?text=${artTitle}%20${artUrl}`;
+  if (tw) tw.href = `https://twitter.com/intent/tweet?text=${artTitle}&url=${artUrl}`;
+  if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${artUrl}`;
   document.title = a.title + ' — NaijaFlash';
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', a.excerpt || a.title);
@@ -1188,6 +1223,13 @@ async function showArticle(slug) {
 
   // Inject ads inside the article body
   injectInArticleAds('artBody');
+
+  // Fix hot topics on article page
+  if (homeArticles && homeArticles.length > 0) {
+    loadHotTopicsFromCache(homeArticles);
+  } else {
+    loadHotTopics();
+  }
 
   // Related articles -- fetch same category
   const relData = await apiGet('/api/articles?category=' + cat + '&limit=4');
@@ -1315,24 +1357,19 @@ function injectInArticleAds(bodyId) {
   const body = document.getElementById(bodyId);
   if (!body) return;
 
-  const paragraphs = body.querySelectorAll('p, h2');
-  if (paragraphs.length < 1) return;
+  const paragraphs = [...body.querySelectorAll('p, h2')];
+  if (paragraphs.length < 2) return;
 
-  // AD 3 -- after 1st paragraph (user reads first para, then sees ad)
-  const adAfterP1 = document.createElement('div');
-  adAfterP1.innerHTML = adSlot('Advertisement');
-  if (paragraphs[0] && paragraphs[0].parentNode) {
-    paragraphs[0].insertAdjacentElement('afterend', adAfterP1.firstElementChild);
-  }
-
-  // AD 4 -- middle of article (only if long enough)
-  const midIndex = Math.floor(paragraphs.length / 2);
-  if (midIndex > 1) {
-    const adMid = document.createElement('div');
-    adMid.innerHTML = adSlot('Advertisement');
-    if (paragraphs[midIndex] && paragraphs[midIndex].parentNode) {
-      paragraphs[midIndex].insertAdjacentElement('afterend', adMid.firstElementChild);
-    }
+  // Inject ad after every 2nd paragraph, max 4 ads
+  let injected = 0;
+  for (let i = 1; i < paragraphs.length; i += 2) {
+    const target = paragraphs[i];
+    if (!target || !target.parentNode) continue;
+    const adEl = document.createElement('div');
+    adEl.innerHTML = adSlot('Advertisement');
+    target.insertAdjacentElement('afterend', adEl.firstElementChild);
+    injected++;
+    if (injected >= 4) break;
   }
 }
 // ---
